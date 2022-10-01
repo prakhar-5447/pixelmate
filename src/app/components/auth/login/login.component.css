@@ -1,0 +1,16 @@
+.login-bg {
+  background: url(../../../../assets/auth/bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+.login-left {
+}
+.login-right {
+}
+
+.para {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
