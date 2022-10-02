@@ -1,2 +1,14 @@
-<p>sidebar works!</p>
-<router-outlet></router-outlet>
+<div class="flex h-full">
+  <div class="bg-white drop-shadow-2xl flex flex-col justify-between px-4 py-8">
+    <a routerLink="/home">
+      <img class="w-10" src="assets/sidebar/home.png" alt="home" />
+    </a>
+    <div class="flex flex-col justify-between">
+      <img class="w-10" src="assets/sidebar/alert.png" alt="alert" />
+      <a routerLink="/setting" class="mt-8">
+        <img class="w-10" src="assets/sidebar/setting.png" alt="setting" />
+      </a>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>
