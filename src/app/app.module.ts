@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
@@ -38,6 +39,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatProgressBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
