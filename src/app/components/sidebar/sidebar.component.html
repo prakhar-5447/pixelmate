@@ -1,14 +1,22 @@
-<div class="flex h-full">
-  <div class="bg-white drop-shadow-2xl flex flex-col justify-between px-4 py-8">
-    <a routerLink="/home">
-      <img class="w-10" src="assets/sidebar/home.png" alt="home" />
-    </a>
+<nav class="flex h-full">
+  <div class="bg-white drop-shadow-2xl flex flex-col justify-between px-4 py-4">
+    <div>
+      <a routerLink="/">
+        <img class="w-8" src="assets/sidebar/home.png" alt="home" />
+      </a>
+      <a routerLink="">
+        <img class="w-8 my-4" src="assets/sidebar/search.png" alt="home" />
+      </a>
+      <a routerLink="/followed">
+        <img class="w-8" src="assets/sidebar/connect.png" alt="home" />
+      </a>
+    </div>
     <div class="flex flex-col justify-between">
-      <img class="w-10" src="assets/sidebar/alert.png" alt="alert" />
-      <a routerLink="/setting" class="mt-8">
-        <img class="w-10" src="assets/sidebar/setting.png" alt="setting" />
+      <img class="w-8" src="assets/sidebar/alert.png" alt="alert" />
+      <a routerLink="/setting" class="mt-4">
+        <img class="w-8" src="assets/sidebar/setting.png" alt="setting" />
       </a>
     </div>
   </div>
   <router-outlet></router-outlet>
-</div>
+</nav>
