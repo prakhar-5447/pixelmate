@@ -1,14 +1,8 @@
-<nav class="flex h-full">
+<nav class="flex h-full bg-gray-light/[0.2]">
   <div class="bg-white drop-shadow-2xl flex flex-col justify-between px-4 py-4">
     <div>
       <a routerLink="/">
         <img class="w-8" src="assets/sidebar/home.png" alt="home" />
-      </a>
-      <a routerLink="">
-        <img class="w-8 my-4" src="assets/sidebar/search.png" alt="home" />
-      </a>
-      <a routerLink="/followed">
-        <img class="w-8" src="assets/sidebar/connect.png" alt="home" />
       </a>
     </div>
     <div class="flex flex-col justify-between">
@@ -18,5 +12,7 @@
       </a>
     </div>
   </div>
-  <router-outlet></router-outlet>
+  <div class="w-full">
+    <router-outlet></router-outlet>
+  </div>
 </nav>
