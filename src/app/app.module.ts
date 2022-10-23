@@ -19,6 +19,7 @@ import { SignupComponent } from './components/auth/signup/signup.component';
 import { HomeComponent } from './components/home/home.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { ProjectComponent } from './components/project/project.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     HomeComponent,
     SettingComponent,
     SidebarComponent,
+    ProjectComponent,
   ],
   imports: [
     BrowserModule,

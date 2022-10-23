@@ -1,26 +1,39 @@
-<div class="pl-16">
-  <div class="py-12 w-[25rem]">
-    <div class="py-4 bg-white drop-shadow-xl flex items-center">
-      <img class="w-12 rounded-full mx-4" src="/assets/auth/bg.png" alt="" />
-      <p>Hello, {{ name }}</p>
-      <img class="w-8 rounded-full mx-4" src="/assets/home/arrow.png" alt="" />
-    </div>
+<div class="pl-16 pt-12">
+  <div class="pb-12 w-[20rem]">
+    <a routerLink="/project">
+      <div
+        class="py-4 bg-white drop-shadow-xl flex items-center justify-between"
+      >
+        <img class="w-12 rounded-full mx-4" src="/assets/auth/bg.png" alt="" />
+        <p>Hello, {{ name }}</p>
+        <img
+          class="w-8 rounded-full mx-4"
+          src="/assets/home/arrow.png"
+          alt=""
+        />
+      </div>
+    </a>
     <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
   </div>
-  <div class="flex bg-gray-light rounded-2xl w-[25rem] justify-between">
-    <div class="flex items-center px-8 drop-shadow-xl uppercase text-lg">Ongoing</div>
-    <div class="bg-white drop-shadow-xl rounded-xl w-[15rem]">
-      <div class="border-b border-gray/[0.5] p-4 text-center uppercase">
-        Create a html File
-      </div>
-      <div class="">
-        <ul class="uppercase">
-          <li class="p-2 hover:bg-gray-light/[0.3]">Create file</li>
-          <li class="p-2 hover:bg-gray-light/[0.3]">edit file</li>
-          <li class="p-2 hover:bg-gray-light/[0.3]">Remove file</li>
-          <li class="p-2 hover:bg-gray-light/[0.3]">Delete file</li>
-        </ul>
-      </div>
+  <div
+    class="flex bg-gray-light/[0.3] rounded-xl w-[30rem] h-[15rem] justify-between"
+  >
+    <div
+      class="flex items-center rounded-xl bg-white px-12 drop-shadow-xl uppercase text-lg"
+    >
+      <img class="w-24" src="/assets/home/activity.png" alt="" />
+    </div>
+    <div class="rounded-xl w-[16rem] flex items-center">
+      <ul class="uppercase h-[13rem] overflow-y-auto w-full">
+        <li class="p-2 hover:bg-gray-light/[0.5]">Create file</li>
+        <li class="p-2 hover:bg-gray-light/[0.5]">edit file</li>
+        <li class="p-2 hover:bg-gray-light/[0.5]">Remove file</li>
+        <li class="p-2 hover:bg-gray-light/[0.5]">Delete file</li>
+        <li class="p-2 hover:bg-gray-light/[0.5]">Delete file</li>
+        <li class="p-2 hover:bg-gray-light/[0.5]">Delete file</li>
+        <li class="p-2 hover:bg-gray-light/[0.5]">Delete file</li>
+        <li class="p-2 hover:bg-gray-light/[0.5]">Delete file</li>
+      </ul>
     </div>
   </div>
 </div>

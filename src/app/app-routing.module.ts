@@ -5,6 +5,7 @@ import { SignupComponent } from './components/auth/signup/signup.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HomeComponent } from './components/home/home.component';
 import { SettingComponent } from './components/setting/setting.component';
+import { ProjectComponent } from './components/project/project.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,16 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent,
+        children: [
+          {
+            path: '',
+            component: HomeComponent,
+          },
+          {
+            path: 'project',
+            component: ProjectComponent,
+          },
+        ],
       },
       {
         path: 'setting',
