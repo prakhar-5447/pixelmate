@@ -8,9 +8,16 @@
       />
     </div>
     <div class="mt-12">
-      <div class="flex items-center bg-black/[0.1] rounded-t-lg">
-        <img class="w-8 m-2" src="assets/project/timeline.png" alt="timeline" />
-        <h1 class="">Timeline</h1>
+      <div
+        class="flex items-center justify-between p-2 bg-black/[0.1] rounded-t-lg"
+      >
+        <div class="flex items-center">
+          <img class="w-8" src="assets/project/timeline.png" alt="timeline" />
+          <h1 class="">Timeline</h1>
+        </div>
+        <div>
+          <span class="text-gray-dark cursor-pointer" (click)="openDialog()">Add New</span>
+        </div>
       </div>
       <div class="h-[25rem] overflow-y-auto drop-shadow-xl bg-white/[0.5]">
         <div

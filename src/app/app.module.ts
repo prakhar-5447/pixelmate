@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatChipsModule } from '@angular/material/chips';
+import {DialogModule} from '@angular/cdk/dialog';
 
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
@@ -22,6 +23,7 @@ import { HomeComponent } from './components/home/home.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ProjectComponent } from './components/project/project.component';
+import { AddTaskComponent } from './modal/add-task/add-task.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { ProjectComponent } from './components/project/project.component';
     SettingComponent,
     SidebarComponent,
     ProjectComponent,
+    AddTaskComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ import { ProjectComponent } from './components/project/project.component';
     MatProgressBarModule,
     DragDropModule,
     MatChipsModule,
+    DialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],
