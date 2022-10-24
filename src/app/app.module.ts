@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
@@ -42,6 +44,8 @@ import { ProjectComponent } from './components/project/project.component';
     MatButtonModule,
     MatIconModule,
     MatProgressBarModule,
+    DragDropModule,
+    MatChipsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
