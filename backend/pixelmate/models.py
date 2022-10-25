@@ -1,7 +1,9 @@
 from tabnanny import verbose
 from django.db import models
 from django import forms
+from django.forms import DateField
 from djongo import models
+from datetime import datetime
 
 # Create your models here.
 
@@ -35,12 +37,29 @@ class TechForm(forms.ModelForm):
         )
 
 
-class Project(models.Model):
+class ProjectCompleted(models.Model):
     Id = models.AutoField(primary_key=True)
     Username = models.ForeignKey(
         Signup, on_delete=models.CASCADE, default=1)
     Name = models.CharField(max_length=30)
     Description = models.CharField(max_length=50)
+    CreatedDate = models.DateTimeField(default=datetime.now, blank=True)
+    CompletedDate = models.DateTimeField(default=datetime.now, blank=True)
+    Url = models.CharField(max_length=50)
+    Technology = models.ArrayField(
+        model_container=Tech,
+        model_form_class=TechForm
+    )
+
+
+class ProjectOnGoing(models.Model):
+    Id = models.AutoField(primary_key=True)
+    Username = models.ForeignKey(
+        Signup, on_delete=models.CASCADE, default=1)
+    Name = models.CharField(max_length=30)
+    Description = models.CharField(max_length=50)
+    CreatedDate = models.DateTimeField(default=datetime.now, blank=True)
+    Url = models.CharField(max_length=50)
     Technology = models.ArrayField(
         model_container=Tech,
         model_form_class=TechForm
