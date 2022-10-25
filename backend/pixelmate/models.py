@@ -1,5 +1,3 @@
-from tabnanny import verbose
-from django.db import models
 from django import forms
 from django.forms import DateField
 from djongo import models
@@ -64,3 +62,11 @@ class ProjectOnGoing(models.Model):
         model_container=Tech,
         model_form_class=TechForm
     )
+
+
+class Task(models.Model):
+    Id = models.AutoField(primary_key=True)
+    Project = models.ForeignKey(
+        ProjectOnGoing, on_delete=models.CASCADE, default=1)
+    Title = models.CharField(max_length=100)
+    Date = models.DateTimeField(default=datetime.now, blank=True)

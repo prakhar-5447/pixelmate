@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^project$', views.projectCompletedApi),
     url(r'^ongoing$', views.projectOnGoingApi),
     url(r'^complete$', views.completeProjectApi),
+    url(r'^task$', views.taskApi),
 ]
 
 # url(r'^login/([0-9]+)$', views.loginApi), sample

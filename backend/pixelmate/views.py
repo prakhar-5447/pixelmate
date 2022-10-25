@@ -4,8 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing
-from pixelmate.serializers import LoginSerializer, SignupSerializer, ProjectCompletedSerializer, ProjectOnGoingSerializer
+from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing, Task
+from pixelmate.serializers import LoginSerializer, SignupSerializer, ProjectCompletedSerializer, ProjectOnGoingSerializer, TaskSerializer
 
 # Create your views here.
 
@@ -77,9 +77,9 @@ def projectCompletedApi(request):
         ProjectData = ProjectCompleted.objects.filter(
             Username_id=reqData["Username"])
         if ProjectData:
-            project_completed__serializer = ProjectCompletedSerializer(
+            project_completed_serializer = ProjectCompletedSerializer(
                 ProjectData, many=True)
-            return JsonResponse(project_completed__serializer.data, safe=False)
+            return JsonResponse(project_completed_serializer.data, safe=False)
         return JsonResponse("No project to display", safe=False)
 
 
@@ -87,10 +87,10 @@ def projectCompletedApi(request):
 def projectOnGoingApi(request):
     if request.method == "POST":
         reqData = JSONParser().parse(request)
-        project_ongoing__serializer = ProjectOnGoingSerializer(
+        project_ongoing_serializer = ProjectOnGoingSerializer(
             data=reqData)
-        if project_ongoing__serializer.is_valid():
-            project_ongoing__serializer.save()
+        if project_ongoing_serializer.is_valid():
+            project_ongoing_serializer.save()
             return JsonResponse("Project Added", safe=False)
         return JsonResponse("Failed", safe=False)
     elif request.method == "GET":
@@ -98,27 +98,43 @@ def projectOnGoingApi(request):
         ProjectData = ProjectOnGoing.objects.filter(
             Username_id=reqData["Username"])
         if ProjectData:
-            project_ongoing__serializer = ProjectOnGoingSerializer(
+            project_ongoing_serializer = ProjectOnGoingSerializer(
                 ProjectData, many=True)
-            return JsonResponse(project_ongoing__serializer.data, safe=False)
+            return JsonResponse(project_ongoing_serializer.data, safe=False)
 
 
 @csrf_exempt
 def completeProjectApi(request):
     if request.method == "GET":
         reqData = JSONParser().parse(request)
-        ProjectData = ProjectOnGoing.objects.filter(
+        ProjectData = Task.objects.filter(
             Id=reqData["Id"])
         if ProjectData:
-            project_completed__serializer = ProjectCompletedSerializer(
+            project_completed_serializer = ProjectCompletedSerializer(
                 data=ProjectData.values()[0])
-            print(project_completed__serializer)
-            if project_completed__serializer.is_valid():
-                project_completed__serializer.save()
+            if project_completed_serializer.is_valid():
+                project_completed_serializer.save()
                 ProjectData.delete()
-                return JsonResponse("Project Completed", safe=False)
+                return JsonResponse("Task Completed", safe=False)
             return JsonResponse("Failed", safe=False)
         return JsonResponse("Project Not Found", safe=False)
+
+
+@csrf_exempt
+def taskApi(request):
+    if request.method == "POST":
+        reqData = JSONParser().parse(request)
+        task_serializer = TaskSerializer(
+            data=reqData)
+        if task_serializer.is_valid():
+            task_serializer.save()
+            return JsonResponse("Project Added", safe=False)
+        return JsonResponse("Failed", safe=False)
+    elif request.method == "GET":
+        reqData = JSONParser().parse(request)
+        taskData = Task.objects.filter(Project_id=reqData["Project"])
+        Task_serializer = TaskSerializer(taskData, many=True)
+        return JsonResponse(Task_serializer.data, safe=False)
 
 
 @csrf_exempt

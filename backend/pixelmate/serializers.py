@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing
+from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing, Task
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -26,3 +26,9 @@ class ProjectOnGoingSerializer(serializers.ModelSerializer):
         model = ProjectOnGoing
         fields = ("Id", "Username", "Name", "Description",
                   "CreatedDate", "Url", "Technology")
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ("Id", "Project", "Title", "Date")
