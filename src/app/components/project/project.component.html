@@ -16,7 +16,9 @@
           <h1 class="">Timeline</h1>
         </div>
         <div>
-          <span class="text-gray-dark cursor-pointer" (click)="openDialog()">Add New</span>
+          <span class="text-gray-dark cursor-pointer" (click)="openDialog()"
+            >Add New</span
+          >
         </div>
       </div>
       <div class="h-[25rem] overflow-y-auto drop-shadow-xl bg-white/[0.5]">
@@ -48,60 +50,65 @@
       </div>
     </div>
   </div>
-  <div class="flex flex-1 flex-col pr-12">
-    <div class="flex justify-between items-center">
-      <div class="flex flex-col border-l-4 border-purple pl-4 py-2">
-        <span class="text-3xl font-medium">Project-1</span>
-        <a
-          class="text-sm"
-          href="https://prakhar-5447.github.io/angular-portfolio"
-          >https://prakhar-5447.github.io/angular-portfolio</a
-        >
-      </div>
-      <div class="w-[10rem] flex justify-between">
-        <button mat-button class="text-gray">Cancel</button>
-        <button mat-raised-button color="primary">Save</button>
-      </div>
-    </div>
+  <div class="flex justify-between flex-col flex-1 pr-12">
     <div>
-      <p class="text-justify text-lg mt-8">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, odio sed
-        modi molestiae in amet corrupti incidunt eaque similique veniam maxime
-        libero qui repellendus, laborum expedita ullam facere doloremque
-        officiis sapiente illum nesciunt minima soluta aperiam. Accusantium
-        pariatur harum necessitatibus eius, laudantium error dicta vero adipisci
-        similique eaque nisi minima quisquam vel ducimus, sapiente, assumenda
-        expedita. Deleniti labore ex minus consequuntur saepe officiis
-        voluptates molestias. Laborum at nemo culpa vel expedita harum. Animi
-        laboriosam velit voluptatem odio ex quas facilis dolore beatae,
-        voluptatibus quis ad, optio ab odit hic repellendus, libero sint debitis
-        ea adipisci? Eum iste vel sapiente consequuntur! Lorem ipsum dolor sit
-        amet consectetur adipisicing elit. Alias, odio sed modi molestiae in
-        amet corrupti incidunt eaque similique veniam maxime libero qui
-        repellendus, laborum expedita ullam facere doloremque officiis sapiente
-        illum nesciunt minima soluta aperiam. Accusantium pariatur harum
-        necessitatibus eius, laudantium error dicta vero adipisci similique
-        eaque nisi minima quisquam vel ducimus, sapiente, assumenda expedita.
-        Deleniti labore ex minus consequuntur saepe officiis voluptates
-        molestias. Laborum at nemo culpa vel expedita harum. Animi laboriosam
-        velit voluptatem odio ex quas facilis dolore beatae, voluptatibus quis
-        ad, optio ab odit hic repellendus, libero sint debitis ea adipisci? Eum
-        iste vel sapiente consequuntur!
-      </p>
+      <div class="flex justify-between items-center">
+        <div class="flex flex-col border-l-4 border-purple pl-4 py-2">
+          <span class="text-3xl font-medium">Project-1</span>
+          <a
+            class="text-sm"
+            href="https://prakhar-5447.github.io/angular-portfolio"
+            >https://prakhar-5447.github.io/angular-portfolio</a
+          >
+        </div>
+        <div class="w-[10rem] flex justify-between">
+          <button mat-button class="text-gray">Cancel</button>
+          <button mat-raised-button color="primary">Save</button>
+        </div>
+      </div>
+      <div>
+        <p class="text-justify text-lg mt-8">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, odio
+          sed modi molestiae in amet corrupti incidunt eaque similique veniam
+          maxime libero qui repellendus, laborum expedita ullam facere
+          doloremque officiis sapiente illum nesciunt minima soluta aperiam.
+          Accusantium pariatur harum necessitatibus eius, laudantium error dicta
+          vero adipisci similique eaque nisi minima quisquam vel ducimus,
+          sapiente, assumenda expedita. Deleniti labore ex minus consequuntur
+          saepe officiis voluptates molestias. Laborum at nemo culpa vel
+          expedita harum. Animi laboriosam velit voluptatem odio ex quas facilis
+          dolore beatae, voluptatibus quis ad, optio ab odit hic repellendus,
+          libero sint debitis ea adipisci? Eum iste vel sapiente consequuntur!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, odio
+          sed modi molestiae in amet corrupti incidunt eaque similique veniam
+          maxime libero qui repellendus, laborum expedita ullam facere
+          doloremque officiis sapiente illum nesciunt minima soluta aperiam.
+          Accusantium pariatur harum necessitatibus eius, laudantium error dicta
+          vero adipisci similique eaque nisi minima quisquam vel ducimus,
+          sapiente, assumenda expedita. Deleniti labore ex minus consequuntur
+          saepe officiis voluptates molestias. Laborum at nemo culpa vel
+          expedita harum. Animi laboriosam velit voluptatem odio ex quas facilis
+          dolore beatae, voluptatibus quis ad, optio ab odit hic repellendus,
+          libero sint debitis ea adipisci? Eum iste vel sapiente consequuntur!
+        </p>
+      </div>
+      <div class="my-4">
+        <h4 class="font-medium text-lg mb-2">Technology :</h4>
+        <mat-chip-list aria-label="Fish selection">
+          <mat-chip
+            ngClass=" hover:bg-purple hover:text-white"
+            *ngFor="let t of tech"
+            class="text-medium"
+          >
+            <div class="p-px">
+              {{ t }}
+            </div>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
     </div>
-    <div class="my-4">
-      <h4 class="font-medium text-lg mb-2">Technology :</h4>
-      <mat-chip-list aria-label="Fish selection">
-        <mat-chip
-          ngClass=" hover:bg-purple hover:text-white"
-          *ngFor="let t of tech"
-          class="text-medium"
-        >
-          <div class="p-px">
-            {{ t }}
-          </div>
-        </mat-chip>
-      </mat-chip-list>
+    <div class="grid justify-items-end">
+      <button mat-button class="bg-gray-light drop-shadow-sm">COMPLETE</button>
     </div>
   </div>
 </div>
