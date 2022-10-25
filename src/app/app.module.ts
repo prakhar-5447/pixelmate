@@ -24,6 +24,7 @@ import { SettingComponent } from './components/setting/setting.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ProjectComponent } from './components/project/project.component';
 import { AddTaskComponent } from './modal/add-task/add-task.component';
+import { ViewComponent } from './components/view/view.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AddTaskComponent } from './modal/add-task/add-task.component';
     SidebarComponent,
     ProjectComponent,
     AddTaskComponent,
+    ViewComponent,
   ],
   imports: [
     BrowserModule,
