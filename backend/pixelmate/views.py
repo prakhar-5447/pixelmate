@@ -1,5 +1,5 @@
+from django.http import QueryDict
 from django.shortcuts import render
-from django.urls import is_valid_path
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
@@ -107,20 +107,34 @@ def projectOnGoingApi(request):
 def completeProjectApi(request):
     if request.method == "GET":
         reqData = JSONParser().parse(request)
-        ProjectData = Task.objects.filter(
+        ProjectData = ProjectOnGoing.objects.filter(
             Id=reqData["Id"])
-        if ProjectData:
+        data1 = ProjectData.values()[0]
+        work = Task.objects.filter(Project_id=reqData["Id"])
+        newWork = list()
+        for i in work.values():
+            newWork.append(
+                {
+                    "Title": i["Title"],
+                    "Date": i["Date"]
+                }
+            )
+        data1["Work"] = newWork
+        print(data1["Work"])
+        if data1:
             project_completed_serializer = ProjectCompletedSerializer(
-                data=ProjectData.values()[0])
+                data=data1)
             if project_completed_serializer.is_valid():
                 project_completed_serializer.save()
-                ProjectData.delete()
-                return JsonResponse("Task Completed", safe=False)
+                DeleteData = ProjectOnGoing.objects.filter(
+                    Id=reqData["Id"])
+                DeleteData.delete()
+                return JsonResponse("Project Completed", safe=False)
             return JsonResponse("Failed", safe=False)
         return JsonResponse("Project Not Found", safe=False)
 
 
-@csrf_exempt
+@ csrf_exempt
 def taskApi(request):
     if request.method == "POST":
         reqData = JSONParser().parse(request)
@@ -129,7 +143,7 @@ def taskApi(request):
         if task_serializer.is_valid():
             task_serializer.save()
             return JsonResponse("Project Added", safe=False)
-        return JsonResponse("Failed", safe=False)
+        return JsonResponse("Project Not Found", safe=False)
     elif request.method == "GET":
         reqData = JSONParser().parse(request)
         taskData = Task.objects.filter(Project_id=reqData["Project"])
@@ -137,7 +151,7 @@ def taskApi(request):
         return JsonResponse(Task_serializer.data, safe=False)
 
 
-@csrf_exempt
+@ csrf_exempt
 def sample(request, id=0):
     if request.method == "GET":
         LoginData = Login.objects.all()

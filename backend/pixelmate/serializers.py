@@ -18,7 +18,7 @@ class ProjectCompletedSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectCompleted
         fields = ("Id", "Username", "Name", "Description",
-                  "CreatedDate", "CompletedDate", "Url", "Technology")
+                  "CreatedDate", "CompletedDate", "Work", "Url", "Technology")
 
 
 class ProjectOnGoingSerializer(serializers.ModelSerializer):
