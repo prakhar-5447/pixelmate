@@ -25,6 +25,9 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ProjectComponent } from './components/project/project.component';
 import { AddTaskComponent } from './modal/add-task/add-task.component';
 import { ViewComponent } from './components/view/view.component';
+import { ExploreComponent } from './components/explore/explore.component';
+import { ChallengeComponent } from './components/challenge/challenge.component';
+import { AchievementsComponent } from './components/achievements/achievements.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,9 @@ import { ViewComponent } from './components/view/view.component';
     ProjectComponent,
     AddTaskComponent,
     ViewComponent,
+    ExploreComponent,
+    ChallengeComponent,
+    AchievementsComponent,
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HomeComponent } from './components/home/home.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { ProjectComponent } from './components/project/project.component';
+import { ViewComponent } from './components/view/view.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'setting',
         component: SettingComponent,
+      },
+      {
+        path: 'view/:id',
+        component: ViewComponent,
       },
     ],
   },
