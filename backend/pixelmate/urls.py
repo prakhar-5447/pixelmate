@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^ongoing$', views.projectOnGoingApi),
     url(r'^complete$', views.completeProjectApi),
     url(r'^task$', views.taskApi),
+    url(r'^challenge$', views.challengeApi),
 ]
 
 # url(r'^login/([0-9]+)$', views.loginApi), sample

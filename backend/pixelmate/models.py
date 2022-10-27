@@ -89,3 +89,32 @@ class Task(models.Model):
         ProjectOnGoing, on_delete=models.CASCADE, default=1)
     Title = models.CharField(max_length=100)
     Date = models.DateTimeField(default=datetime.now, blank=True)
+
+
+class Step(models.Model):
+    Title = models.CharField(max_length=100)
+
+    class Meta:
+        abstract = True
+
+
+class StepForm(forms.ModelForm):
+    class Meta:
+        model = Work
+        fields = ('Title',)
+
+
+class Challenge(models.Model):
+    Id = models.AutoField(primary_key=True)
+    Name = models.CharField(max_length=30)
+    Description = models.CharField(max_length=50)
+    Difficulty_level = models.CharField(max_length=10)
+    Url = models.CharField(max_length=50)
+    Technology = models.ArrayField(
+        model_container=Tech,
+        model_form_class=TechForm
+    )
+    Progress = models.ArrayField(
+        model_container=Step,
+        model_form_class=StepForm
+    )

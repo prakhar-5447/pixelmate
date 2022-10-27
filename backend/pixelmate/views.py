@@ -1,11 +1,9 @@
-from django.http import QueryDict
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing, Task
-from pixelmate.serializers import LoginSerializer, SignupSerializer, ProjectCompletedSerializer, ProjectOnGoingSerializer, TaskSerializer
+from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing, Task, Challenge
+from pixelmate.serializers import LoginSerializer, SignupSerializer, ProjectCompletedSerializer, ProjectOnGoingSerializer, TaskSerializer, ChallengeSerializer
 
 # Create your views here.
 
@@ -128,6 +126,7 @@ def completeProjectApi(request):
                 project_completed_serializer.save()
                 DeleteData = ProjectOnGoing.objects.filter(
                     Id=reqData["Id"])
+
                 DeleteData.delete()
                 return JsonResponse("Project Completed", safe=False)
             return JsonResponse("Failed", safe=False)
@@ -149,6 +148,24 @@ def taskApi(request):
         taskData = Task.objects.filter(Project_id=reqData["Project"])
         Task_serializer = TaskSerializer(taskData, many=True)
         return JsonResponse(Task_serializer.data, safe=False)
+
+
+@ csrf_exempt
+def challengeApi(request):
+    if request.method == "POST":
+        reqData = JSONParser().parse(request)
+        challenge_serializer = ChallengeSerializer(
+            data=reqData)
+        if challenge_serializer.is_valid():
+            challenge_serializer.save()
+            return JsonResponse("Challenge Added", safe=False)
+        return JsonResponse("Failed", safe=False)
+    elif request.method == "GET":
+        ChallengeData = Challenge.objects.all()
+        if ChallengeData:
+            challenge_serializer = ProjectOnGoingSerializer(
+                ChallengeData, many=True)
+            return JsonResponse(challenge_serializer.data, safe=False)
 
 
 @ csrf_exempt
