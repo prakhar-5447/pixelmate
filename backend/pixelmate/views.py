@@ -138,31 +138,41 @@ def taskApi(request):
             Id=reqData["Project"])
         if not ProjectData:
             return JsonResponse("Project Not Found", safe=False)
-        taskData = Task.objects.get(Project_id=reqData["Project"])
+        taskData = Task.objects.filter(Project_id=reqData["Project"])
+        if taskData:
+            return JsonResponse("Project Task Already Exist", safe=False)
         dict = {
             "Project": reqData['Project'],
             "Task": reqData['Task']
         }
-        if taskData:
-            Task_serializer = TaskSerializer(
-                taskData, data=dict)
-            if Task_serializer.is_valid():
-                Task_serializer.save()
-                return JsonResponse("Update Sucessfully", safe=False)
-            return JsonResponse("Failed to Update", safe=False)
-        else:
-            task_serializer = TaskSerializer(
-                data=dict)
-            if task_serializer.is_valid():
-                task_serializer.save()
-                return JsonResponse("Task Added", safe=False)
-            return JsonResponse("Project Not Found", safe=False)
+        task_serializer = TaskSerializer(
+            data=dict)
+        if task_serializer.is_valid():
+            task_serializer.save()
+            return JsonResponse("Task Added", safe=False)
+        return JsonResponse("Project Not Found", safe=False)
     elif request.method == "GET":
         reqData = JSONParser().parse(request)
         taskData = Task.objects.filter(Project_id=reqData["Project"])
         if taskData:
             Task_serializer = TaskSerializer(taskData, many=True)
             return JsonResponse(Task_serializer.data, safe=False)
+        return JsonResponse("Task Not Found", safe=False)
+    elif request.method == "PUT":
+        reqData = JSONParser().parse(request)
+        ProjectData = ProjectOnGoing.objects.filter(
+            Id=reqData["Project"])
+        if not ProjectData:
+            return JsonResponse("Project Not Found", safe=False)
+        taskData = Task.objects.get(Project_id=reqData["Project"])
+        if taskData:
+            newTask = {"Task": reqData['Task']}
+            Task_serializer = TaskSerializer(
+                taskData, data=newTask)
+            if Task_serializer.is_valid():
+                Task_serializer.save()
+                return JsonResponse("Update Sucessfully", safe=False)
+            return JsonResponse("Failed to Update", safe=False)
         return JsonResponse("Task Not Found", safe=False)
 
 
@@ -197,12 +207,15 @@ def acceptChallengeApi(request):
             Username_id=reqData["Username"])
         if AcceptedChallengeData:
             return JsonResponse("Challenge OnGoing", safe=False)
+        CompletedChallengeData = CompleteChallenge.objects.filter(
+            Username_id=reqData["Username"], Challenge_id=reqData["Id"])
+        if CompletedChallengeData:
+            return JsonResponse("Challenge Already Completed", safe=False)
         ChallengeData = Challenge.objects.filter(Id=reqData["Id"])
         if ChallengeData:
             newData = ChallengeData.values()[0]
             newData["Username"] = reqData["Username"]
             newData["Challenge"] = newData["Id"]
-            newData["CurrentTask"] = 0
             accept_challenge_serializer = AcceptChallengeSerializer(
                 data=newData)
             if accept_challenge_serializer.is_valid():
@@ -216,9 +229,26 @@ def acceptChallengeApi(request):
             Username_id=reqData["Username"])
         if ChallengeData:
             accept_challenge_serializer = AcceptChallengeSerializer(
-                ChallengeData,many=True)
+                ChallengeData, many=True)
             return JsonResponse(accept_challenge_serializer.data, safe=False)
         return JsonResponse("No Challenge Found", safe=False)
+    elif request.method == "PUT":
+        reqData = JSONParser().parse(request)
+        UserData = Signup.objects.filter(
+            Id=reqData["Username"])
+        if not UserData:
+            return JsonResponse("Unauthorized User", safe=False)
+        AcceptedChallengeData = AcceptChallenge.objects.filter(
+            Username_id=reqData["Username"], Id=reqData["Id"])
+        if AcceptedChallengeData:
+            newTask = {"CurrentTask": reqData["CurrentTask"]}
+            accept_challenge_serializer = AcceptChallengeSerializer(
+                AcceptedChallengeData, data=newTask)
+            if accept_challenge_serializer.is_valid():
+                accept_challenge_serializer.save()
+                return JsonResponse("Update Sucessfully", safe=False)
+            return JsonResponse("Failed", safe=False)
+        return JsonResponse("Challenge Not Found", safe=False)
 
 
 @ csrf_exempt
@@ -248,10 +278,9 @@ def completeChallengeApi(request):
         reqData = JSONParser().parse(request)
         ChallengeData = CompleteChallenge.objects.filter(
             Username_id=reqData["Username"])
-        print(ChallengeData)
         if ChallengeData:
             complete_challenge_serializer = CompleteChallengeSerializer(
-                ChallengeData,many=True)
+                ChallengeData, many=True)
             return JsonResponse(complete_challenge_serializer.data, safe=False)
         return JsonResponse("No Challenge Found", safe=False)
 

@@ -1,3 +1,4 @@
+from email.policy import default
 from django import forms
 from django.forms import DateField
 from djongo import models
@@ -127,7 +128,7 @@ class AcceptChallenge(models.Model):
     Name = models.CharField(max_length=30)
     Description = models.CharField(max_length=50)
     Difficulty_level = models.CharField(max_length=10)
-    CurrentTask = models.IntegerField()
+    CurrentTask = models.IntegerField(default=0)
     Challenge = models.ForeignKey(
         Challenge, on_delete=models.CASCADE, default=1)
     Username = models.ForeignKey(
