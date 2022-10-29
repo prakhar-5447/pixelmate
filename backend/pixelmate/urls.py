@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^complete$', views.completeProjectApi),
     url(r'^task$', views.taskApi),
     url(r'^challenge$', views.challengeApi),
+    url(r'^acceptChallenge$', views.acceptChallengeApi),
+    url(r'^completeChallenge$', views.completeChallengeApi),
 ]
 
 # url(r'^login/([0-9]+)$', views.loginApi), sample

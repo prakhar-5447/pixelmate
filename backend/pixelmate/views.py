@@ -2,9 +2,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing, Task, Challenge
-from pixelmate.serializers import LoginSerializer, SignupSerializer, ProjectCompletedSerializer, ProjectOnGoingSerializer, TaskSerializer, ChallengeSerializer
-
+from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing, Task, Challenge, AcceptChallenge, CompleteChallenge
+from pixelmate.serializers import LoginSerializer, SignupSerializer, ProjectCompletedSerializer, ProjectOnGoingSerializer, TaskSerializer, ChallengeSerializer, AcceptChallengeSerializer, CompleteChallengeSerializer
 # Create your views here.
 
 
@@ -37,9 +36,11 @@ def loginApi(request):
             UserData = Signup.objects.filter(
                 Username=reqData["Username"]).values()
             if UserData:
-                if UserData[0]["Password"] == reqData["Password"]:
-                    Login_serializer = LoginSerializer(UserData, many=True)
-                    return JsonResponse(Login_serializer.data[0]["Username"], safe=False)
+                if UserData[0]['Password'] == reqData["Password"]:
+                    Login_serializer = LoginSerializer(data=UserData[0])
+                    if Login_serializer.is_valid():
+                        return JsonResponse(Login_serializer.data[0]["Username"], safe=False)
+                    return JsonResponse("Failed", safe=False)
                 return JsonResponse("Incorrect Password", safe=False)
             else:
                 return JsonResponse("User not Exist", safe=False)
@@ -47,9 +48,11 @@ def loginApi(request):
             UserData = Signup.objects.filter(
                 Email=reqData["Email"]).values()
             if UserData:
-                if UserData[0]["Password"] == reqData["Password"]:
-                    Login_serializer = LoginSerializer(UserData, many=True)
-                    return JsonResponse(Login_serializer.data[0]["Username"], safe=False)
+                if UserData[0]['Password'] == reqData["Password"]:
+                    Login_serializer = LoginSerializer(data=UserData[0])
+                    if Login_serializer.is_valid():
+                        return JsonResponse(Login_serializer.data["Username"], safe=False)
+                    return JsonResponse("Failed", safe=False)
                 return JsonResponse("Incorrect Password", safe=False)
             else:
                 return JsonResponse("User not Exist", safe=False)
@@ -63,7 +66,7 @@ def userApi(request):
         UserData = Signup.objects.filter(
             Username=reqData["Username"])
         if UserData:
-            Login_serializer = LoginSerializer(UserData, many=True)
+            Login_serializer = LoginSerializer(UserData[0])
             return JsonResponse(Login_serializer.data, safe=False)
         return JsonResponse("User not Exist", safe=False)
 
@@ -107,47 +110,60 @@ def completeProjectApi(request):
         reqData = JSONParser().parse(request)
         ProjectData = ProjectOnGoing.objects.filter(
             Id=reqData["Id"])
-        data1 = ProjectData.values()[0]
-        work = Task.objects.filter(Project_id=reqData["Id"])
-        newWork = list()
-        for i in work.values():
-            newWork.append(
-                {
-                    "Title": i["Title"],
-                    "Date": i["Date"]
-                }
-            )
-        data1["Work"] = newWork
-        print(data1["Work"])
-        if data1:
+        if not ProjectData:
+            return JsonResponse("Project Not Found", safe=False)
+        newData = ProjectData.values()[0]
+        work = Task.objects.get(Project_id=reqData["Id"])
+        if work:
+            newData["Work"] = work.Task
+        else:
+            newData["Work"] = []
+        if newData:
             project_completed_serializer = ProjectCompletedSerializer(
-                data=data1)
+                data=newData)
             if project_completed_serializer.is_valid():
                 project_completed_serializer.save()
                 DeleteData = ProjectOnGoing.objects.filter(
                     Id=reqData["Id"])
-
                 DeleteData.delete()
                 return JsonResponse("Project Completed", safe=False)
             return JsonResponse("Failed", safe=False)
-        return JsonResponse("Project Not Found", safe=False)
 
 
 @ csrf_exempt
 def taskApi(request):
     if request.method == "POST":
         reqData = JSONParser().parse(request)
-        task_serializer = TaskSerializer(
-            data=reqData)
-        if task_serializer.is_valid():
-            task_serializer.save()
-            return JsonResponse("Project Added", safe=False)
-        return JsonResponse("Project Not Found", safe=False)
+        ProjectData = ProjectOnGoing.objects.filter(
+            Id=reqData["Project"])
+        if not ProjectData:
+            return JsonResponse("Project Not Found", safe=False)
+        taskData = Task.objects.get(Project_id=reqData["Project"])
+        dict = {
+            "Project": reqData['Project'],
+            "Task": reqData['Task']
+        }
+        if taskData:
+            Task_serializer = TaskSerializer(
+                taskData, data=dict)
+            if Task_serializer.is_valid():
+                Task_serializer.save()
+                return JsonResponse("Update Sucessfully", safe=False)
+            return JsonResponse("Failed to Update", safe=False)
+        else:
+            task_serializer = TaskSerializer(
+                data=dict)
+            if task_serializer.is_valid():
+                task_serializer.save()
+                return JsonResponse("Task Added", safe=False)
+            return JsonResponse("Project Not Found", safe=False)
     elif request.method == "GET":
         reqData = JSONParser().parse(request)
         taskData = Task.objects.filter(Project_id=reqData["Project"])
-        Task_serializer = TaskSerializer(taskData, many=True)
-        return JsonResponse(Task_serializer.data, safe=False)
+        if taskData:
+            Task_serializer = TaskSerializer(taskData, many=True)
+            return JsonResponse(Task_serializer.data, safe=False)
+        return JsonResponse("Task Not Found", safe=False)
 
 
 @ csrf_exempt
@@ -163,9 +179,81 @@ def challengeApi(request):
     elif request.method == "GET":
         ChallengeData = Challenge.objects.all()
         if ChallengeData:
-            challenge_serializer = ProjectOnGoingSerializer(
+            challenge_serializer = ChallengeSerializer(
                 ChallengeData, many=True)
             return JsonResponse(challenge_serializer.data, safe=False)
+        return JsonResponse("No Challenge Found", safe=False)
+
+
+@ csrf_exempt
+def acceptChallengeApi(request):
+    if request.method == "POST":
+        reqData = JSONParser().parse(request)
+        UserData = Signup.objects.filter(
+            Id=reqData["Username"])
+        if not UserData:
+            return JsonResponse("User Not Found", safe=False)
+        AcceptedChallengeData = AcceptChallenge.objects.filter(
+            Username_id=reqData["Username"])
+        if AcceptedChallengeData:
+            return JsonResponse("Challenge OnGoing", safe=False)
+        ChallengeData = Challenge.objects.filter(Id=reqData["Id"])
+        if ChallengeData:
+            newData = ChallengeData.values()[0]
+            newData["Username"] = reqData["Username"]
+            newData["Challenge"] = newData["Id"]
+            newData["CurrentTask"] = 0
+            accept_challenge_serializer = AcceptChallengeSerializer(
+                data=newData)
+            if accept_challenge_serializer.is_valid():
+                accept_challenge_serializer.save()
+                return JsonResponse("Challenge Accepted", safe=False)
+            return JsonResponse("Failed", safe=False)
+        return JsonResponse("Challenge Not Found", safe=False)
+    elif request.method == "GET":
+        reqData = JSONParser().parse(request)
+        ChallengeData = AcceptChallenge.objects.filter(
+            Username_id=reqData["Username"])
+        if ChallengeData:
+            accept_challenge_serializer = AcceptChallengeSerializer(
+                ChallengeData,many=True)
+            return JsonResponse(accept_challenge_serializer.data, safe=False)
+        return JsonResponse("No Challenge Found", safe=False)
+
+
+@ csrf_exempt
+def completeChallengeApi(request):
+    if request.method == "POST":
+        reqData = JSONParser().parse(request)
+        ChallengeData = AcceptChallenge.objects.filter(Id=reqData["Id"])
+        if ChallengeData:
+            newData = ChallengeData.values()[0]
+            newData["Username"] = newData["Username_id"]
+            newData["Challenge"] = newData["Challenge_id"]
+            del newData["CurrentTask"]
+            del newData["Username_id"]
+            del newData["Challenge_id"]
+            print(newData)
+            complete_challenge_serializer = CompleteChallengeSerializer(
+                data=newData)
+            if complete_challenge_serializer.is_valid():
+                complete_challenge_serializer.save()
+                DeleteData = AcceptChallenge.objects.filter(
+                    Id=reqData["Id"])
+                DeleteData.delete()
+                return JsonResponse("Challenge Completed", safe=False)
+            return JsonResponse("Failed", safe=False)
+        return JsonResponse("Challenge Not Found", safe=False)
+    elif request.method == "GET":
+        reqData = JSONParser().parse(request)
+        ChallengeData = CompleteChallenge.objects.filter(
+            Username_id=reqData["Username"])
+        print(ChallengeData)
+        if ChallengeData:
+            complete_challenge_serializer = CompleteChallengeSerializer(
+                ChallengeData,many=True)
+            return JsonResponse(complete_challenge_serializer.data, safe=False)
+        return JsonResponse("No Challenge Found", safe=False)
 
 
 @ csrf_exempt
