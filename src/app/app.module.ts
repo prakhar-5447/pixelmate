@@ -15,7 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatChipsModule } from '@angular/material/chips';
-import {DialogModule} from '@angular/cdk/dialog';
+import { DialogModule } from '@angular/cdk/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
@@ -28,6 +29,8 @@ import { ViewComponent } from './components/view/view.component';
 import { ExploreComponent } from './components/explore/explore.component';
 import { ChallengeComponent } from './components/challenge/challenge.component';
 import { AchievementsComponent } from './components/achievements/achievements.component';
+import { AddProjectComponent } from './modal/add-project/add-project.component';
+import { ActivityComponent } from './components/activity/activity.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,8 @@ import { AchievementsComponent } from './components/achievements/achievements.co
     ExploreComponent,
     ChallengeComponent,
     AchievementsComponent,
+    AddProjectComponent,
+    ActivityComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +62,8 @@ import { AchievementsComponent } from './components/achievements/achievements.co
     MatProgressBarModule,
     DragDropModule,
     MatChipsModule,
-    DialogModule
+    DialogModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
