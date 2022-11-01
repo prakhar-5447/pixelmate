@@ -165,6 +165,7 @@ def taskApi(request):
         if not ProjectData:
             return JsonResponse("Project Not Found", safe=False)
         taskData = Task.objects.get(Project_id=reqData["Project"])
+        print(taskData)
         if taskData:
             newTask = {"Task": reqData['Task']}
             Task_serializer = TaskSerializer(
@@ -237,7 +238,7 @@ def acceptChallengeApi(request):
         UserData = Signup.objects.filter(
             Id=reqData["Username"])
         if not UserData:
-            return JsonResponse("Unauthorized User", safe=False)
+            return JsonResponse("User Not Found", safe=False)
         AcceptedChallengeData = AcceptChallenge.objects.filter(
             Username_id=reqData["Username"], Id=reqData["Id"])
         if AcceptedChallengeData:
