@@ -3,13 +3,15 @@
     <div>
       <a routerLink="/">
         <img class="w-8 mb-4" src="assets/sidebar/home.png" alt="home" />
-      </a>  
+      </a>
       <a routerLink="/explore">
         <img class="w-8" src="assets/sidebar/explore.png" alt="home" />
       </a>
     </div>
     <div class="flex flex-col justify-between">
-      <img class="w-8" src="assets/sidebar/alert.png" alt="alert" />
+      <button (click)="openDialog()">
+        <img class="w-8" src="assets/sidebar/alert.png" alt="alert" />
+      </button>
       <a routerLink="/setting">
         <img class="w-8 mt-4" src="assets/sidebar/setting.png" alt="setting" />
       </a>
