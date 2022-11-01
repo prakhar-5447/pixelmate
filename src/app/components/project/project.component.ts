@@ -11,7 +11,7 @@ import { AddTaskComponent } from './../../modal/add-task/add-task.component';
 export class ProjectComponent implements OnInit {
   index = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   tech = ['html', 'css', 'javascript', 'tailwind', 'vscode', 'mongo'];
-  
+
   constructor(public dialog: Dialog) {}
 
   ngOnInit(): void {}
@@ -22,5 +22,11 @@ export class ProjectComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(AddTaskComponent);
+  }
+
+  delete(i: any) {
+    // console.log(i);
+    this.index.splice(i, 1);
+    // console.log('delete');
   }
 }
