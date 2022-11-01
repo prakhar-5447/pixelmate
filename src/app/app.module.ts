@@ -31,6 +31,7 @@ import { ChallengeComponent } from './components/challenge/challenge.component';
 import { AchievementsComponent } from './components/achievements/achievements.component';
 import { AddProjectComponent } from './modal/add-project/add-project.component';
 import { ActivityComponent } from './components/activity/activity.component';
+import { AnalyticComponent } from './modal/analytic/analytic.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ActivityComponent } from './components/activity/activity.component';
     AchievementsComponent,
     AddProjectComponent,
     ActivityComponent,
+    AnalyticComponent,
   ],
   imports: [
     BrowserModule,
