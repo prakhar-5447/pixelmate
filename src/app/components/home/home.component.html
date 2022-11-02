@@ -1,26 +1,83 @@
-<div class="pl-16">
-  <div class="py-12 w-[25rem]">
-    <div class="py-4 bg-white drop-shadow-xl flex items-center">
-      <img class="w-12 rounded-full mx-4" src="/assets/auth/bg.png" alt="" />
-      <p>Hello, {{ name }}</p>
-      <img class="w-8 rounded-full mx-4" src="/assets/home/arrow.png" alt="" />
+<div class="pl-16 pt-12 flex flex-col h-screen pb-2">
+  <div class="flex items-center pb-12">
+    <!-- <div class="w-[20rem]">
+      <a routerLink="/project">
+        <div
+          class="py-4 bg-white drop-shadow-xl flex items-center justify-between"
+        >
+          <img
+            class="w-12 rounded-full mx-4"
+            src="/assets/auth/bg.png"
+            alt=""
+          />
+          <p>Hello, {{ name }}</p>
+          <img
+            class="w-8 rounded-full mx-4"
+            src="/assets/home/ar
+            row.png"
+            alt=""
+          />
+        </div>
+      </a>
+    </div> -->
+    <div class="w-[20rem] cursor-pointer" (click)="openDialog()">
+      <div
+        class="py-4 bg-white drop-shadow-xl flex items-center justify-between"
+      >
+        <img class="w-12 rounded-full mx-4" src="/assets/auth/bg.png" alt="" />
+        <p>Hello, {{ name }}</p>
+        <img class="w-8 rounded-full mx-4" src="/assets/home/add.png" alt="" />
+      </div>
     </div>
-    <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+    <div class="group ml-4 hover:border rounded-full">
+      <a
+        class="bg-black group-hover:bg-white rounded-full drop-shadow-xl flex items-center"
+        routerLink="/challenge"
+      >
+        <img
+          class="w-12 m-2 rounded-full invert group-hover:invert-0"
+          src="/assets/home/challenge.png"
+          alt=""
+        />
+      </a>
+    </div>
   </div>
-  <div class="flex bg-gray-light rounded-2xl w-[25rem] justify-between">
-    <div class="flex items-center px-8 drop-shadow-xl uppercase text-lg">Ongoing</div>
-    <div class="bg-white drop-shadow-xl rounded-xl w-[15rem]">
-      <div class="border-b border-gray/[0.5] p-4 text-center uppercase">
-        Create a html File
-      </div>
-      <div class="">
-        <ul class="uppercase">
-          <li class="p-2 hover:bg-gray-light/[0.3]">Create file</li>
-          <li class="p-2 hover:bg-gray-light/[0.3]">edit file</li>
-          <li class="p-2 hover:bg-gray-light/[0.3]">Remove file</li>
-          <li class="p-2 hover:bg-gray-light/[0.3]">Delete file</li>
-        </ul>
-      </div>
+  <div class="drop-shadow-xl">
+    <span class="font-semibold text-3xl ml-2"> Projects </span>
+    <hr class="mb-4 drop-shadow-2xl" />
+  </div>
+  <div class="overflow-auto">
+    <div class="grid grid-cols-6 gap-2">
+      <a
+        *ngFor="let i of index"
+        class="hover:drop-shadow-xl w-72 cursor-pointer"
+        routerLink="/view/{{ i }}"
+      >
+        <img
+          class="w-full rounded-md opacity-50 hover:opacity-100 transition duration-500 ease-in-out"
+          src="../../../assets/project/design.jpg"
+          alt=""
+        />
+      </a>
+    </div>
+  </div>
+  <div class="drop-shadow-xl mt-2">
+    <span class="font-semibold text-3xl ml-2"> Achievements </span>
+    <hr class="mb-4 drop-shadow-2xl" />
+  </div>
+  <div class="overflow-auto">
+    <div class="grid grid-cols-6 gap-2">
+      <a
+        *ngFor="let i of index"
+        class="hover:drop-shadow-xl w-72 cursor-pointer"
+        routerLink="/challenge/{{ i }}"
+      >
+        <img
+          class="w-full rounded-md opacity-50 hover:opacity-100 transition duration-500 ease-in-out"
+          src="../../../assets/project/design.jpg"
+          alt=""
+        />
+      </a>
     </div>
   </div>
 </div>

@@ -1,1 +1,50 @@
-<p>setting works!</p>
+<div class="pl-16 pt-12 flex flex-col w-min">
+  <div class="flex items-center justify-center">
+    <img
+      class="rounded-full w-44 drop-shadow-lg"
+      src="assets/auth/bg.png"
+      alt="no_image"
+    />
+  </div>
+  <div class="mt-8">
+    <form (ngSubmit)="save()" [formGroup]="profile" class="flex flex-col">
+      <mat-form-field class="w-80" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          [readonly]="true"
+          type="text"
+          placeholder=""
+          formControlName="name"
+          value=""
+        />
+      </mat-form-field>
+      <mat-form-field class="w-80" appearance="fill">
+        <mat-label>Username</mat-label>
+        <input
+          matInput
+          [readonly]="true"
+          type="text"
+          placeholder="Unique Identity"
+          formControlName="username"
+          value=""
+        />
+      </mat-form-field>
+      <mat-form-field class="w-80" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          [readonly]="true"
+          type="email"
+          placeholder=""
+          formControlName="email"
+          value=""
+        />
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="flex justify-between">
+    <button mat-raised-button color="accent" class="w-32 h-12">Save</button>
+    <button mat-button class="w-32 h-12">Cancel</button>
+  </div>
+</div>

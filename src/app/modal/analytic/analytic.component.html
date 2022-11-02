@@ -1,0 +1,29 @@
+<div class="bg-white p-12">
+  <div class="mb-12">Total Projects: 20</div>
+  <div class="">Challenges :</div>
+  <div
+    class="bg-white drop-shadow-xl flex justify-between w-[60rem] px-8 py-12"
+  >
+    <div
+      *ngFor="let i of level"
+      [ngClass]="{
+        'bg-green/[0.7]': i.difficulty == 'easy',
+        'bg-orange/[0.7]': i.difficulty == 'medium',
+        'bg-red/[0.7]': i.difficulty == 'hard',
+        'bg-purple/[0.7]': i.difficulty == 'ultimate'
+      }"
+      class="flex flex-col items-center justify-center p-8 drop-shadow-md rounded-md"
+    >
+      <div class="flex items-center justify-center">
+        <div class="">
+          <mat-progress-spinner mode="determinate" value="90">
+          </mat-progress-spinner>
+        </div>
+        <div class="text-xl font-bold absolute">10</div>
+      </div>
+      <div class="text-xl font-medium mt-4">
+        {{ i.difficulty }}
+      </div>
+    </div>
+  </div>
+</div>

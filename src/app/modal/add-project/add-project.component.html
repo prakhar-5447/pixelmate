@@ -1,0 +1,89 @@
+<div class="bg-white py-8">
+  <div>
+    <form (ngSubmit)="send()" [formGroup]="login" class="flex flex-col">
+      <div class="w-full flex item-center justify-center">
+        <label for="file" class="mb-4" *ngIf="url">
+          <img
+            [src]="url"
+            alt="image"
+            class="w-[35rem] h-[22rem] bg-center border"
+          />
+        </label>
+        <label
+          *ngIf="!url"
+          class="w-[35rem] h-[22rem] border-dashed border-2 mb-4 flex justify-center items-center"
+          for="file"
+        >
+          <span>Nothing to display</span>
+        </label>
+        <input
+          class="hidden"
+          type="file"
+          name="file"
+          id="file"
+          accept="image/png, image/jpeg"
+          (change)="onSelectFile($event)"
+        />
+      </div>
+      <div class="w-full flex justify-center p-8">
+        <div class="flex flex-col mr-8">
+          <mat-form-field class="w-80" appearance="fill">
+            <mat-label>Title</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder=""
+              formControlName="title"
+              value=""
+            />
+          </mat-form-field>
+          <mat-form-field class="w-80" appearance="fill">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              cdkAutosizeMinRows="5"
+              cdkTextareaAutosize="true"
+              type="text"
+              placeholder=""
+              formControlName="desc"
+              value=""
+            ></textarea>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col">
+          <mat-form-field class="w-80" appearance="fill">
+            <mat-label>Link (optional)</mat-label>
+            <input
+              matInput
+              placeholder="Repository link"
+              formControlName="link"
+              value=""
+            />
+          </mat-form-field>
+          <mat-form-field class="example-chip-list w-80" appearance="fill">
+            <mat-label>Technology</mat-label>
+            <mat-chip-list #chipList aria-label="Fruit selection">
+              <mat-chip *ngFor="let t of tech" (removed)="remove(t)">
+                {{ t }}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input
+                placeholder="Technology"
+                #fruitInput
+                formControlName="technology"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)"
+              />
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="flex justify-center">
+    <button mat-raised-button color="accent" class="w-32 h-12">ADD</button>
+  </div>
+</div>

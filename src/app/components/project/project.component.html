@@ -1,0 +1,118 @@
+<div class="pl-16 pt-12 flex">
+  <div class="flex flex-col mr-8">
+    <div>
+      <img
+        class="w-[45rem] rounded-2xl"
+        src="assets/project/design.jpg"
+        alt="project_banner"
+      />
+    </div>
+    <div class="mt-12">
+      <div
+        class="flex items-center justify-between p-2 bg-black/[0.1] rounded-t-lg"
+      >
+        <div class="flex items-center">
+          <img class="w-8" src="assets/project/timeline.png" alt="timeline" />
+          <h1 class="">Timeline</h1>
+        </div>
+        <div>
+          <span class="text-gray-dark cursor-pointer" (click)="openDialog()"
+            >Add New</span
+          >
+        </div>
+      </div>
+      <div class="h-[25rem] overflow-y-auto drop-shadow-xl bg-white/[0.5]">
+        <div
+          cdkDropList
+          class="example-list"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div
+            class="example-box"
+            *ngFor="let i of index; let index = index"
+            cdkDrag
+          >
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            <div
+              class="group h-[60px] hover:bg-white/[0.7] px-2 hover:drop-shadow-xl flex items-center justify-between"
+            >
+              <span class="my-4 text-gray-dark">{{ i }}</span>
+              <code class="text-right group-hover:hidden">19-02-2003</code>
+              <div class="hidden group-hover:flex">
+                <button class="" (click)="delete(index)">
+                  <img
+                    class="ml-4 h-8 cursor-pointer"
+                    src="assets/project/delete.png"
+                    alt="delete"
+                  />
+                </button>
+              </div>
+            </div>
+            <hr class="border-gray" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex justify-between flex-col flex-1 pr-12">
+    <div>
+      <div class="flex justify-between items-center">
+        <div class="flex flex-col border-l-4 border-purple pl-4 py-2">
+          <span class="text-3xl font-medium">Project-1</span>
+          <a
+            class="text-sm"
+            href="https://prakhar-5447.github.io/angular-portfolio"
+            >https://prakhar-5447.github.io/angular-portfolio</a
+          >
+        </div>
+        <div class="w-[10rem] flex justify-between">
+          <button mat-button class="text-gray">Cancel</button>
+          <button mat-raised-button color="primary">Save</button>
+        </div>
+      </div>
+      <div>
+        <p class="text-justify text-lg mt-8">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, odio
+          sed modi molestiae in amet corrupti incidunt eaque similique veniam
+          maxime libero qui repellendus, laborum expedita ullam facere
+          doloremque officiis sapiente illum nesciunt minima soluta aperiam.
+          Accusantium pariatur harum necessitatibus eius, laudantium error dicta
+          vero adipisci similique eaque nisi minima quisquam vel ducimus,
+          sapiente, assumenda expedita. Deleniti labore ex minus consequuntur
+          saepe officiis voluptates molestias. Laborum at nemo culpa vel
+          expedita harum. Animi laboriosam velit voluptatem odio ex quas facilis
+          dolore beatae, voluptatibus quis ad, optio ab odit hic repellendus,
+          libero sint debitis ea adipisci? Eum iste vel sapiente consequuntur!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, odio
+          sed modi molestiae in amet corrupti incidunt eaque similique veniam
+          maxime libero qui repellendus, laborum expedita ullam facere
+          doloremque officiis sapiente illum nesciunt minima soluta aperiam.
+          Accusantium pariatur harum necessitatibus eius, laudantium error dicta
+          vero adipisci similique eaque nisi minima quisquam vel ducimus,
+          sapiente, assumenda expedita. Deleniti labore ex minus consequuntur
+          saepe officiis voluptates molestias. Laborum at nemo culpa vel
+          expedita harum. Animi laboriosam velit voluptatem odio ex quas facilis
+          dolore beatae, voluptatibus quis ad, optio ab odit hic repellendus,
+          libero sint debitis ea adipisci? Eum iste vel sapiente consequuntur!
+        </p>
+      </div>
+      <div class="my-4">
+        <h4 class="font-medium text-lg mb-2">Technology :</h4>
+        <mat-chip-list aria-label="Fish selection">
+          <mat-chip
+            ngClass=" hover:bg-purple hover:text-white"
+            *ngFor="let t of tech"
+            class="text-medium"
+          >
+            <div class="p-px">
+              {{ t }}
+            </div>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+    <div class="grid justify-items-end">
+      <button mat-button class="bg-gray-light drop-shadow-sm">COMPLETE</button>
+    </div>
+  </div>
+</div>

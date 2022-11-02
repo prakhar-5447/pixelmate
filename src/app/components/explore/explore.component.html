@@ -1,0 +1,21 @@
+<div class="flex flex-col pt-12 pl-16 h-screen">
+  <div class="drop-shadow-xl">
+    <span class="font-semibold text-3xl ml-2"> Challenges </span>
+    <hr class="mb-4 drop-shadow-2xl" />
+  </div>
+  <div class="overflow-auto">
+    <div class="grid grid-cols-5 gap-4">
+      <a
+        *ngFor="let i of index"
+        class="hover:drop-shadow-xl w-92 cursor-pointer"
+        routerLink="/explore/{{ i }}"
+      >
+        <img
+          class="w-full rounded-md opacity-50 hover:opacity-100 transition duration-500 ease-in-out"
+          src="../../../assets/project/design.jpg"
+          alt=""
+        />
+      </a>
+    </div>
+  </div>
+</div>
