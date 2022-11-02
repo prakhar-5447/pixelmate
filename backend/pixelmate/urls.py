@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^challenge$', views.challengeApi),
     url(r'^acceptChallenge$', views.acceptChallengeApi),
     url(r'^completeChallenge$', views.completeChallengeApi),
+    url(r'^upload$', views.uploadApi),
 ]
 
 # url(r'^login/([0-9]+)$', views.loginApi), sample

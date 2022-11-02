@@ -1,6 +1,15 @@
 from django import forms
 from djongo import models
 from datetime import datetime
+from django.conf import settings
+
+# Add the import for GridFSStorage
+from djongo.storage import GridFSStorage
+
+
+# Define your GrifFSStorage instance
+grid_fs_storage = GridFSStorage(
+    collection='myfiles', base_url=''.join([settings.BASE_URL, 'myfiles/']))
 
 # Create your models here.
 
@@ -163,3 +172,7 @@ class CompleteChallenge(models.Model):
         model_container=Step,
         model_form_class=StepForm
     )
+
+
+class Image(models.Model):
+    avatar = models.ImageField(upload_to='authors', storage=grid_fs_storage)

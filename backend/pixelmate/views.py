@@ -1,9 +1,10 @@
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import JSONParser, FileUploadParser
 from django.http.response import JsonResponse
 
-from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing, Task, Challenge, AcceptChallenge, CompleteChallenge
-from pixelmate.serializers import LoginSerializer, SignupSerializer, ProjectCompletedSerializer, ProjectOnGoingSerializer, TaskSerializer, ChallengeSerializer, AcceptChallengeSerializer, CompleteChallengeSerializer
+from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing, Task, Challenge, AcceptChallenge, CompleteChallenge, Image
+from pixelmate.serializers import LoginSerializer, SignupSerializer, ProjectCompletedSerializer, ProjectOnGoingSerializer, TaskSerializer, ChallengeSerializer, AcceptChallengeSerializer, CompleteChallengeSerializer, ImageSerailizer
+
 # Create your views here.
 
 
@@ -284,6 +285,17 @@ def completeChallengeApi(request):
                 ChallengeData, many=True)
             return JsonResponse(complete_challenge_serializer.data, safe=False)
         return JsonResponse("No Challenge Found", safe=False)
+
+
+@csrf_exempt
+def uploadApi(request):
+    if request.method == "POST":
+        # file_data = FileUploadParser().parse()
+        Image_serializer = ImageSerailizer(data=request.FILES)
+        if Image_serializer.is_valid():
+            Image_serializer.save()
+            return JsonResponse("Uploaded Sucessfully", safe=False)
+        return JsonResponse("Failed to Upload", safe=False)
 
 
 @ csrf_exempt
