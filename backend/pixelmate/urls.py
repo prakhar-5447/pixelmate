@@ -1,5 +1,8 @@
 from django.urls import re_path as url
+from django.conf.urls.static import static
+from django.conf import settings
 from pixelmate import views
+
 
 urlpatterns = [
     url(r'^signup$', views.signupApi),
@@ -13,6 +16,6 @@ urlpatterns = [
     url(r'^acceptChallenge$', views.acceptChallengeApi),
     url(r'^completeChallenge$', views.completeChallengeApi),
     url(r'^upload$', views.uploadApi),
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # url(r'^login/([0-9]+)$', views.loginApi), sample

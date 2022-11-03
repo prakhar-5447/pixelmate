@@ -1,9 +1,10 @@
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser, FileUploadParser
+from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
+from django.core.files.storage import default_storage
 
-from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing, Task, Challenge, AcceptChallenge, CompleteChallenge, Image
-from pixelmate.serializers import LoginSerializer, SignupSerializer, ProjectCompletedSerializer, ProjectOnGoingSerializer, TaskSerializer, ChallengeSerializer, AcceptChallengeSerializer, CompleteChallengeSerializer, ImageSerailizer
+from pixelmate.models import Login, Signup, ProjectCompleted, ProjectOnGoing, Task, Challenge, AcceptChallenge, CompleteChallenge
+from pixelmate.serializers import LoginSerializer, SignupSerializer, ProjectCompletedSerializer, ProjectOnGoingSerializer, TaskSerializer, ChallengeSerializer, AcceptChallengeSerializer, CompleteChallengeSerializer
 
 # Create your views here.
 
@@ -89,6 +90,10 @@ def projectCompletedApi(request):
 def projectOnGoingApi(request):
     if request.method == "POST":
         reqData = JSONParser().parse(request)
+        ProjectData = ProjectOnGoing.objects.filter(
+            Username_id=reqData["Username"])
+        if ProjectData:
+            return JsonResponse("Project OnGoing", safe=False)
         project_ongoing_serializer = ProjectOnGoingSerializer(
             data=reqData)
         if project_ongoing_serializer.is_valid():
@@ -103,6 +108,7 @@ def projectOnGoingApi(request):
             project_ongoing_serializer = ProjectOnGoingSerializer(
                 ProjectData, many=True)
             return JsonResponse(project_ongoing_serializer.data, safe=False)
+        return JsonResponse("No Project Found", safe=False)
 
 
 @csrf_exempt
@@ -114,7 +120,7 @@ def completeProjectApi(request):
         if not ProjectData:
             return JsonResponse("Project Not Found", safe=False)
         newData = ProjectData.values()[0]
-        work = Task.objects.get(Project_id=reqData["Id"])
+        work = Task.objects.filter(Project_id=reqData["Id"])
         if work:
             newData["Work"] = work.Task
         else:
@@ -290,12 +296,9 @@ def completeChallengeApi(request):
 @csrf_exempt
 def uploadApi(request):
     if request.method == "POST":
-        # file_data = FileUploadParser().parse()
-        Image_serializer = ImageSerailizer(data=request.FILES)
-        if Image_serializer.is_valid():
-            Image_serializer.save()
-            return JsonResponse("Uploaded Sucessfully", safe=False)
-        return JsonResponse("Failed to Upload", safe=False)
+        file_data = request.FILES["file"]
+        filename = default_storage.save(file_data.name, file_data)
+        return JsonResponse(filename, safe=False)
 
 
 @ csrf_exempt
