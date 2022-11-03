@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { signup } from 'src/app/model/signup';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -8,12 +9,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
-  login!: FormGroup;
-  credential!: any;
-  constructor(private http: HttpClient) {
-    this.login = new FormGroup({
-      name: new FormControl('', []),
-      username: new FormControl('', [Validators.required]),
+  signupForm!: FormGroup;
+  credential!: signup;
+  constructor(private auth: AuthService) {
+    this.signupForm = new FormGroup({
+      name: new FormControl('', [Validators.minLength(8)]),
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+      ]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
@@ -22,45 +26,18 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  call() {
-    console.log('s');
-
-    if (this.login.valid) {
-      this.credential = {
-        email: this.login.value['email'],
-        password: this.login.value['password'],
-      };
-      this.login.reset();
-    }
-    try {
-      this.http.get('http://localhost:8080/').subscribe((res) => {
-        console.log(res);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  send() {
-    console.log('crediential set');
-
-    this.credential = {
-      email: this.login.value['email'],
-      password: this.login.value['password'],
-      name: this.login.value['name'],
-      username: this.login.value['username'],
-    };
-    this.login.reset();
-
-    try {
-      this.http
-        .post('http://localhost:8080/send', this.credential)
-        .subscribe((res) => {
-          console.log(res);
-          console.log('get daata');
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }
   ngOnInit(): void {}
+
+  register() {
+    if (this.signupForm.valid) {
+      this.credential = {
+        Name: this.signupForm.value['name'],
+        Email: this.signupForm.value['email'],
+        Username: this.signupForm.value['username'],
+        Password: this.signupForm.value['password'],
+      };
+      this.auth.signup(this.credential);
+      this.signupForm.reset();
+    }
+  }
 }

@@ -16,23 +16,23 @@ def signupApi(request):
         UserData = Signup.objects.filter(
             Username=reqData["Username"], Email=reqData["Email"])
         if UserData:
-            return JsonResponse("User with same Username and Email Exist", safe=False)
+            return JsonResponse({'success': False, 'msg': "User with same Username and Email Exist"})
         UserData = Signup.objects.filter(Email=reqData["Email"])
         if UserData:
-            return JsonResponse("User with same Email Exist", safe=False)
+            return JsonResponse({'success': False, 'msg': "User with same Email Exist"})
         UserData = Signup.objects.filter(Username=reqData["Username"])
         if UserData:
-            return JsonResponse("User with same Username Exist", safe=False)
+            return JsonResponse({'success': False, 'msg': "User with same Username Exist"})
         Signup_serializer = SignupSerializer(data=reqData)
         if Signup_serializer.is_valid():
             Signup_serializer.save()
-            return JsonResponse("Signup Sucessfully", safe=False)
-        return JsonResponse("Failed to Create Account", safe=False)
+            return JsonResponse({'success': True, 'msg': "Signup Sucessfully"})
+        return JsonResponse({'success': False, 'msg': "Failed to Create Account"})
 
 
 @csrf_exempt
 def loginApi(request):
-    if request.method == "GET":
+    if request.method == "POST":
         reqData = JSONParser().parse(request)
         if reqData["Username"]:
             UserData = Signup.objects.filter(
@@ -41,11 +41,11 @@ def loginApi(request):
                 if UserData[0]['Password'] == reqData["Password"]:
                     Login_serializer = LoginSerializer(data=UserData[0])
                     if Login_serializer.is_valid():
-                        return JsonResponse(Login_serializer.data[0]["Username"], safe=False)
-                    return JsonResponse("Failed", safe=False)
-                return JsonResponse("Incorrect Password", safe=False)
+                        return JsonResponse({'success':True,'msg':Login_serializer.data["Username"]})
+                    return JsonResponse({'success':False,'msg':"Failed"})
+                return JsonResponse({'success':False,'msg':"Incorrect Password"})
             else:
-                return JsonResponse("User not Exist", safe=False)
+                return JsonResponse({'success':False,'msg':"User not Exist"})
         elif reqData["Email"]:
             UserData = Signup.objects.filter(
                 Email=reqData["Email"]).values()
@@ -53,24 +53,24 @@ def loginApi(request):
                 if UserData[0]['Password'] == reqData["Password"]:
                     Login_serializer = LoginSerializer(data=UserData[0])
                     if Login_serializer.is_valid():
-                        return JsonResponse(Login_serializer.data["Username"], safe=False)
-                    return JsonResponse("Failed", safe=False)
-                return JsonResponse("Incorrect Password", safe=False)
+                        return JsonResponse({'success':True,'msg':Login_serializer.data["Username"]})
+                    return JsonResponse({'success':False,'msg':"Failed"})
+                return JsonResponse({'success':False,'msg':"Incorrect Password"})
             else:
-                return JsonResponse("User not Exist", safe=False)
-        return JsonResponse("User not Exist", safe=False)
+                return JsonResponse({'success':False,'msg':"User not Exist"})
+        return JsonResponse({'success':False,'msg':"User not Exist"})
 
 
 @csrf_exempt
-def userApi(request):
+def userApi(request,username):
     if request.method == "GET":
         reqData = JSONParser().parse(request)
         UserData = Signup.objects.filter(
-            Username=reqData["Username"])
+            Username=username)
         if UserData:
             Login_serializer = LoginSerializer(UserData[0])
-            return JsonResponse(Login_serializer.data, safe=False)
-        return JsonResponse("User not Exist", safe=False)
+            return JsonResponse({'success':True,'msg':Login_serializer.data})
+        return JsonResponse({'success':False,'msg':"User not Exist"})
 
 
 @csrf_exempt

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { login } from 'src/app/model/login';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,12 +11,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   title = 'pixelmate';
-  login!: FormGroup;
-  credential!: any;
-  constructor(private http: HttpClient) {
-    this.login = new FormGroup({
+  loginForm!: FormGroup;
+  credential!: login;
+  constructor(private auth: AuthService) {
+    this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.email]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
@@ -22,44 +24,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  call() {
-    console.log('s');
-
-    if (this.login.valid) {
-      this.credential = {
-        email: this.login.value['email'],
-        password: this.login.value['password'],
-      };
-      this.login.reset();
-    }
-    try {
-      this.http.get('http://localhost:8080/').subscribe((res) => {
-        console.log(res);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  send() {
-    console.log('crediential set');
-
-    this.credential = {
-      email: this.login.value['email'],
-      password: this.login.value['password'],
-    };
-    this.login.reset();
-
-    try {
-      this.http
-        .post('http://localhost:8080/send', this.credential)
-        .subscribe((res) => {
-          console.log(res);
-          console.log('get daata');
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   ngOnInit(): void {}
+
+  continue() {
+    if (this.loginForm.valid) {
+      this.credential = {
+        Username: this.loginForm.value['username'],
+        Email: this.loginForm.value['email'],
+        Password: this.loginForm.value['password'],
+      };
+      this.auth.login(this.credential);
+      this.loginForm.reset();
+    }
+  }
 }

@@ -19,21 +19,15 @@
         </a>
       </p>
     </div>
-    <div class="">
+    <div>
       <form
-        (ngSubmit)="send()"
-        [formGroup]="login"
+        (ngSubmit)="register()"
+        [formGroup]="signupForm"
         class="flex flex-col items-center"
       >
         <mat-form-field class="w-80" appearance="fill">
           <mat-label>Name</mat-label>
-          <input
-            matInput
-            type="text"
-            placeholder=""
-            formControlName="name"
-            value=""
-          />
+          <input matInput type="text" placeholder="" formControlName="name" />
         </mat-form-field>
         <mat-form-field class="w-80" appearance="fill">
           <mat-label>Username</mat-label>
@@ -42,18 +36,11 @@
             type="text"
             placeholder="Unique Identity"
             formControlName="username"
-            value=""
           />
         </mat-form-field>
         <mat-form-field class="w-80" appearance="fill">
           <mat-label>Email</mat-label>
-          <input
-            matInput
-            type="email"
-            placeholder=""
-            formControlName="email"
-            value=""
-          />
+          <input matInput type="email" placeholder="" formControlName="email" />
         </mat-form-field>
         <mat-form-field class="w-80" appearance="fill">
           <mat-label>Password</mat-label>
@@ -61,13 +48,21 @@
             matInput
             placeholder="Password must contain 8 characters"
             formControlName="password"
-            value=""
           />
         </mat-form-field>
+        <button
+          type="submit"
+          mat-raised-button
+          color="accent"
+          [disabled]="signupForm.invalid"
+          class="w-32 h-12"
+        >
+          Register
+        </button>
       </form>
     </div>
     <div class="flex justify-center">
-      <button mat-raised-button color="accent" class="w-32 h-12">Register</button>
+      <code>user agreement and T&C</code>
     </div>
   </div>
 </div>

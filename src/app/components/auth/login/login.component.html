@@ -21,8 +21,8 @@
     </div>
     <div class="">
       <form
-        (ngSubmit)="send()"
-        [formGroup]="login"
+        (ngSubmit)="continue()"
+        [formGroup]="loginForm"
         class="flex flex-col items-center"
       >
         <mat-form-field class="w-80" appearance="fill">
@@ -55,10 +55,19 @@
             value=""
           />
         </mat-form-field>
+        <button
+          type="submit"
+          mat-raised-button
+          color="accent"
+          [disabled]="loginForm.invalid"
+          class="w-32 h-12"
+        >
+          Let's Go &rarr;
+        </button>
       </form>
     </div>
     <div class="flex justify-center">
-      <button mat-raised-button color="accent" class="w-32 h-12">Let's Go &rarr;</button>
+      <code>user agreement and T&C</code>
     </div>
   </div>
 </div>
