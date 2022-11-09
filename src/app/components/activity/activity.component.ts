@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { challenge } from 'src/app/model/challenge';
+import { AuthService } from 'src/app/services/auth.service';
+import { ChallengeService } from 'src/app/services/challenge.service';
 
 @Component({
   selector: 'app-activity',
@@ -7,32 +10,40 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./activity.component.css'],
 })
 export class ActivityComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
+  challengeInfo!: challenge;
   id!: string;
-  index = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30,
-  ];
-  difficulty: string = 'ultimate';
-  tech = [
-    'html',
-    'css',
-    'javascript',
-    'tailwind',
-    'vscode',
-    'mongo',
-    'seaborn',
-    'matplotlib.pyplot',
-    'pandas',
-    'numpy',
-    'tensorflow',
-  ];
 
-  ngOnInit(): void {
+  constructor(
+    private auth: AuthService,
+    private challenge: ChallengeService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    const data = this.auth.checkAuth();
+    if (!data.success) {
+      this.router.navigateByUrl('/login');
+    }
     this.route.params.subscribe((params) => {
-      // console.log(params);
       this.id = params['id'];
-      // console.log(this.id); // price
+      this.challenge.viewChallenge(this.id).subscribe((Response: any) => {
+        if (Response.success) {
+          this.challengeInfo = Response.msg[0];
+          this.challengeInfo.Technology = JSON.parse(
+            this.challengeInfo.Technology
+          );
+          this.challengeInfo.Progress = JSON.parse(this.challengeInfo.Progress);
+        }
+      });
     });
+  }
+
+  ngOnInit(): void {}
+
+  acceptChallenge() {
+    const data = this.auth.checkAuth();
+    if (!data.success) {
+      this.router.navigateByUrl('/login');
+    }
+    this.challenge.acceptChallenge(this.challengeInfo.Id, data.userId);
   }
 }

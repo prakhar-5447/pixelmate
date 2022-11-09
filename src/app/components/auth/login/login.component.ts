@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { login } from 'src/app/model/login';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   title = 'pixelmate';
   loginForm!: FormGroup;
   credential!: login;
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private router: Router) {
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.email]),
@@ -24,7 +25,11 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (localStorage.getItem('authId')) {
+      this.router.navigateByUrl('/');
+    }
+  }
 
   continue() {
     if (this.loginForm.valid) {

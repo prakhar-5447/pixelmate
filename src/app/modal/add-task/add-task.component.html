@@ -1,11 +1,28 @@
 <div class="bg-white p-8">
-  <form class="example-form flex flex-col">
+  <form
+    (ngSubmit)="add()"
+    [formGroup]="taskForm"
+    class="example-form flex flex-col"
+  >
     <mat-form-field class="example-full-width w-[30rem]" appearance="fill">
       <mat-label>Write your task</mat-label>
-      <input matInput placeholder="Ex. Create home page" value="" />
+      <input
+        matInput
+        formControlName="title"
+        placeholder="Ex. Create home page"
+        value=""
+      />
     </mat-form-field>
     <div class="grid justify-items-end">
-      <button mat-button color="accent" class="text-lg">Add</button>
+      <button
+        type="submit"
+        mat-button
+        [disabled]="taskForm.invalid"
+        color="accent"
+        class="text-lg"
+      >
+        Add
+      </button>
     </div>
   </form>
 </div>

@@ -4,15 +4,15 @@
     <hr class="mb-4 drop-shadow-2xl" />
   </div>
   <div class="overflow-auto">
-    <div class="grid grid-cols-5 gap-4">
+    <div *ngIf="challengeInfo" class="grid grid-cols-5 gap-4">
       <a
-        *ngFor="let i of index"
+        *ngFor="let i of challengeInfo"
         class="hover:drop-shadow-xl w-92 cursor-pointer"
-        routerLink="/explore/{{ i }}"
+        routerLink="/explore/{{ i.Id }}"
       >
         <img
           class="w-full rounded-md opacity-50 hover:opacity-100 transition duration-500 ease-in-out"
-          src="../../../assets/project/design.jpg"
+          src="http://127.0.0.1:8000/upload/{{ i.ProjectImage }}"
           alt=""
         />
       </a>

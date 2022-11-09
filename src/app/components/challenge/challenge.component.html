@@ -1,52 +1,56 @@
-<div class="py-12 pl-16 flex h-screen">
+<div *ngIf="challengeInfo" class="py-12 pl-16 flex h-screen">
   <div class="flex flex-1 flex-col">
     <div class="flex items-center">
       <img
         class="w-96 h-56 rounded-xl drop-shadow-lg"
-        src="assets/project/design.jpg"
+        src="http://127.0.0.1:8000/upload/{{ challengeInfo.ProjectImage }}"
         alt=""
       />
       <div class="pl-4 py-2">
         <div class="flex flex-col">
           <div class="flex items-center">
-            <span class="text-4xl font-medium">Project-1</span>
+            <span class="text-4xl font-medium">{{ challengeInfo.Name }}</span>
             <div
               [ngClass]="{
-                'border-green text-green': difficulty == 'easy',
-                'border-orange text-orange': difficulty == 'medium',
-                'border-red-700 text-red-700': difficulty == 'hard',
-                'border-purple text-purple': difficulty == 'ultimate'
+                'border-green text-green':
+                  challengeInfo.Difficulty_level == 'Easy',
+                'border-orange text-orange':
+                  challengeInfo.Difficulty_level == 'Medium',
+                'border-red-700 text-red-700':
+                  challengeInfo.Difficulty_level == 'Hard',
+                'border-purple text-purple':
+                  challengeInfo.Difficulty_level == 'Ultimate'
               }"
               class="flex items-center justify-between rounded-full border-2 px-2 py ml-2 text-sm select-none"
             >
               <div
                 [ngClass]="{
-                  'bg-green': difficulty == 'easy',
-                  'bg-orange': difficulty == 'medium',
-                  'bg-red-700': difficulty == 'hard',
-                  'bg-purple': difficulty == 'ultimate'
+                  'bg-green': challengeInfo.Difficulty_level == 'Easy',
+                  'bg-orange': challengeInfo.Difficulty_level == 'Medium',
+                  'bg-red-700': challengeInfo.Difficulty_level == 'Hard',
+                  'bg-purple': challengeInfo.Difficulty_level == 'Ultimate'
                 }"
                 class="h-2 w-2 rounded-full"
               ></div>
 
-              <span class="ml-2 capitalize">{{ difficulty }}</span>
+              <span class="ml-2 capitalize">{{
+                challengeInfo.Difficulty_level
+              }}</span>
             </div>
           </div>
-          <a
-            class="text-sm"
-            href="https://prakhar-5447.github.io/angular-portfolio"
-            >https://prakhar-5447.github.io/angular-portfolio</a
-          >
+          <a class="text-sm" href="{{ challengeInfo.Url }}">{{
+            challengeInfo.Url
+          }}</a>
           <div class="my-4">
             <h4 class="font-medium text-lg mb-2">Technology :</h4>
             <mat-chip-list aria-label="Fish selection">
               <mat-chip
                 ngClass=" hover:bg-purple hover:text-white"
-                *ngFor="let t of tech"
+                *ngFor="let t of challengeInfo.Technology"
                 class="text-medium"
               >
                 <div class="p-px">
-                  {{ t }}
+                  {{ t.name }}
                 </div>
               </mat-chip>
             </mat-chip-list>
@@ -57,37 +61,16 @@
     <div class="h-full flex flex-col justify-between">
       <div>
         <p class="text-justify text-lg mt-8">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, odio
-          sed modi molestiae in amet corrupti incidunt eaque similique veniam
-          maxime libero qui repellendus, laborum expedita ullam facere
-          doloremque officiis sapiente illum nesciunt minima soluta aperiam.
-          Accusantium pariatur harum necessitatibus eius, laudantium error dicta
-          vero adipisci similique eaque nisi minima quisquam vel ducimus,
-          sapiente, assumenda expedita. Deleniti labore ex minus consequuntur
-          saepe officiis voluptates molestias. Laborum at nemo culpa vel
-          expedita harum. Animi laboriosam velit voluptatem odio ex quas facilis
-          dolore beatae, voluptatibus quis ad, optio ab odit hic repellendus,
-          libero sint debitis ea adipisci? Eum iste vel sapiente consequuntur!
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, odio
-          sed modi molestiae in amet corrupti incidunt eaque similique veniam
-          maxime libero qui repellendus, laborum expedita ullam facere
-          doloremque officiis sapiente illum nesciunt minima soluta aperiam.
-          Accusantium pariatur harum necessitatibus eius, laudantium error dicta
-          vero adipisci similique eaque nisi minima quisquam vel ducimus,
-          sapiente, assumenda expedita. Deleniti labore ex minus consequuntur
-          saepe officiis voluptates molestias. Laborum at nemo culpa vel
-          expedita harum. Animi laboriosam velit voluptatem odio ex quas facilis
-          dolore beatae, voluptatibus quis ad, optio ab odit hic repellendus,
-          libero sint debitis ea adipisci? Eum iste vel sapiente consequuntur!
+          {{ challengeInfo.Description }}
         </p>
       </div>
       <div class="flex justify-between items-center">
-        <button mat-button class="bg-gray-light drop-shadow-sm uppercase">
+        <button mat-button (click)="completeChallenge()" class="bg-gray-light drop-shadow-sm uppercase">
           ACCOMPLISH
         </button>
         <div class="w-[10rem] flex justify-between">
           <button mat-button class="text-gray">Cancel</button>
-          <button mat-raised-button color="primary">Save</button>
+          <button (click)="saveProgress()" mat-raised-button color="primary">Save</button>
         </div>
       </div>
     </div>
@@ -98,15 +81,15 @@
       <h1 class="">Timeline</h1>
     </div>
     <div class="h-full overflow-y-auto drop-shadow-xl bg-white/[0.5]">
-      <div *ngFor="let i of index" (click)="change_index(i)">
+      <div *ngFor="let i of challengeInfo.Progress;let t = index" (click)="change_index(t)">
         <div
           [ngClass]="{
             'bg-green/[0.5] transition duration-7 00 ease-in-out':
-              i <= this.cindex
+              t <= this.cindex
           }"
           class="px-2 flex items-center"
         >
-          <span class="my-4 text-gray-dark">{{ i }}</span>
+          <span class="my-4 text-gray-dark">{{ i.title }}</span>
         </div>
         <hr class="border-gray" />
       </div>

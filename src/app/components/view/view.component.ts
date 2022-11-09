@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { projectCompleted } from 'src/app/model/projectCompleted';
+import { AuthService } from 'src/app/services/auth.service';
+import { ProjectService } from './../../services/project.service';
 
 @Component({
   selector: 'app-view',
@@ -17,16 +20,30 @@ export class ViewComponent implements OnInit {
     { 4: '19-02-2003', completed: true },
     { 5: '19-02-2003', completed: true },
   ];
-  tech = ['html', 'css', 'javascript', 'tailwind', 'vscode', 'mongo'];
-
-  constructor(private route: ActivatedRoute) {}
+  projectInfo!: projectCompleted;
   id!: string;
 
-  ngOnInit(): void {
+  constructor(
+    private auth: AuthService,
+    private project: ProjectService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    const data = this.auth.checkAuth();
+    if (!data.success) {
+      this.router.navigateByUrl('/login');
+    }
     this.route.params.subscribe((params) => {
-      // console.log(params);
       this.id = params['id'];
-      // console.log(this.id); // price
+      this.project.showProject(this.id).subscribe((Response: any) => {
+        if (Response.success) {
+          this.projectInfo = Response.msg[0];
+          this.projectInfo.Technology = JSON.parse(this.projectInfo.Technology);
+          this.projectInfo.Work = JSON.parse(this.projectInfo.Work);
+        }
+      });
     });
   }
+
+  ngOnInit(): void {}
 }

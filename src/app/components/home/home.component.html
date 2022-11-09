@@ -1,6 +1,6 @@
 <div class="pl-16 pt-12 flex flex-col h-screen pb-2">
   <div class="flex items-center pb-12">
-    <!-- <div class="w-[20rem]">
+    <div *ngIf="projectOnGoing; else project" class="w-[20rem]">
       <a routerLink="/project">
         <div
           class="py-4 bg-white drop-shadow-xl flex items-center justify-between"
@@ -13,23 +13,31 @@
           <p>Hello, {{ name }}</p>
           <img
             class="w-8 rounded-full mx-4"
-            src="/assets/home/ar
-            row.png"
+            src="/assets/home/arrow.png"
             alt=""
           />
         </div>
       </a>
-    </div> -->
-    <div class="w-[20rem] cursor-pointer" (click)="openDialog()">
-      <div
-        class="py-4 bg-white drop-shadow-xl flex items-center justify-between"
-      >
-        <img class="w-12 rounded-full mx-4" src="/assets/auth/bg.png" alt="" />
-        <p>Hello, {{ name }}</p>
-        <img class="w-8 rounded-full mx-4" src="/assets/home/add.png" alt="" />
-      </div>
     </div>
-    <div class="group ml-4 hover:border rounded-full">
+    <ng-template #project>
+      <div class="w-[20rem] cursor-pointer" (click)="openDialog()">
+        <div
+          class="py-4 bg-white drop-shadow-xl flex items-center justify-between"
+        >
+          <img
+            class="w-12 rounded-full mx-4"
+            src="/assets/auth/bg.png"
+            alt=""
+          />
+          <p>Hello, {{ name }}</p>
+          <img
+            class="w-8 rounded-full mx-4"
+            src="/assets/home/add.png"
+            alt=""
+          />
+        </div></div
+    ></ng-template>
+    <div *ngIf="challengeOnGoing" class="group ml-4 hover:border rounded-full">
       <a
         class="bg-black group-hover:bg-white rounded-full drop-shadow-xl flex items-center"
         routerLink="/challenge"
@@ -49,32 +57,32 @@
   <div class="overflow-auto">
     <div class="grid grid-cols-6 gap-2">
       <a
-        *ngFor="let i of index"
+        *ngFor="let i of completedProject"
         class="hover:drop-shadow-xl w-72 cursor-pointer"
-        routerLink="/view/{{ i }}"
+        routerLink="/view/{{ i.Id }}"
       >
         <img
           class="w-full rounded-md opacity-50 hover:opacity-100 transition duration-500 ease-in-out"
-          src="../../../assets/project/design.jpg"
+          src="http://127.0.0.1:8000/upload/{{ i.ProjectImage }}"
           alt=""
         />
       </a>
     </div>
   </div>
-  <div class="drop-shadow-xl mt-2">
+  <div *ngIf="completedChallenge" class="drop-shadow-xl mt-2">
     <span class="font-semibold text-3xl ml-2"> Achievements </span>
     <hr class="mb-4 drop-shadow-2xl" />
   </div>
   <div class="overflow-auto">
     <div class="grid grid-cols-6 gap-2">
       <a
-        *ngFor="let i of index"
+        *ngFor="let i of completedChallenge"
         class="hover:drop-shadow-xl w-72 cursor-pointer"
-        routerLink="/challenge/{{ i }}"
+        routerLink="/challenge/{{ i.Id }}"
       >
         <img
           class="w-full rounded-md opacity-50 hover:opacity-100 transition duration-500 ease-in-out"
-          src="../../../assets/project/design.jpg"
+          src="http://127.0.0.1:8000/upload/{{ i.ProjectImage }}"
           alt=""
         />
       </a>

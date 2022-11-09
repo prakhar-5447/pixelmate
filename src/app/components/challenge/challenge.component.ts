@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { ChallengeService } from 'src/app/services/challenge.service';
+import { Router } from '@angular/router';
+import { challengeOnGoing } from 'src/app/model/challengeOnGoing';
 
 @Component({
   selector: 'app-challenge',
@@ -6,32 +10,63 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./challenge.component.css'],
 })
 export class ChallengeComponent implements OnInit {
-  constructor() {}
   id!: string;
-  index = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30,
-  ];
+  challengeInfo!: challengeOnGoing;
   cindex = 0;
-  difficulty: string = 'ultimate';
-  tech = [
-    'html',
-    'css',
-    'javascript',
-    'tailwind',
-    'vscode',
-    'mongo',
-    'seaborn',
-    'matplotlib.pyplot',
-    'pandas',
-    'numpy',
-    'tensorflow',
-  ];
+
+  constructor(
+    private auth: AuthService,
+    private challenge: ChallengeService,
+    private router: Router
+  ) {
+    const data = this.auth.checkAuth();
+    if (!data.success) {
+      this.router.navigateByUrl('/login');
+    }
+
+    this.challenge
+      .getOnGoingChallenge(data.userId)
+      .subscribe((Response: any) => {
+        if (Response.success) {
+          console.log(Response.msg[0]);
+          this.challengeInfo = Response.msg[0];
+          this.challengeInfo.Technology = JSON.parse(
+            this.challengeInfo.Technology
+          );
+          this.challengeInfo.Progress = JSON.parse(this.challengeInfo.Progress);
+          this.cindex = this.challengeInfo.CurrentTask;
+        }
+      });
+  }
 
   ngOnInit(): void {}
 
   change_index(i: any) {
     this.cindex = i;
     // console.log(this.cindex);
+  }
+
+  saveProgress() {
+    const data = this.auth.checkAuth();
+    if (!data.success) {
+      this.router.navigateByUrl('/login');
+    }
+    this.challenge
+      .progressChallenge({
+        Id: this.challengeInfo.Id,
+        Username: data.userId,
+        CurrentTask: this.cindex,
+      })
+      .subscribe((Response: any) => {
+        if (Response.success) {
+          this.challengeInfo.CurrentTask = this.cindex;
+        } else {
+          this.cindex = this.challengeInfo.CurrentTask;
+        }
+      });
+  }
+
+  completeChallenge() {
+    this.challenge.completeChallenge(this.challengeInfo.Id);
   }
 }

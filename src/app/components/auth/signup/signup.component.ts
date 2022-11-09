@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { signup } from 'src/app/model/signup';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   credential!: signup;
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private router: Router) {
     this.signupForm = new FormGroup({
       name: new FormControl('', [Validators.minLength(8)]),
       username: new FormControl('', [
@@ -26,7 +27,11 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (localStorage.getItem('authId')) {
+      this.router.navigateByUrl('/');
+    }
+  }
 
   register() {
     if (this.signupForm.valid) {
