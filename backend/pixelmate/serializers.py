@@ -11,7 +11,7 @@ class SignupSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = Login
-        fields = ("Id", "Username", "Email")
+        fields = ("Id", "Name", "Username", "Email")
 
 
 class ProjectCompletedSerializer(serializers.ModelSerializer):
@@ -53,3 +53,4 @@ class CompleteChallengeSerializer(serializers.ModelSerializer):
         model = CompleteChallenge
         fields = ("Id", "Name", "Description", "ProjectImage",
                   "Difficulty_level", "Challenge", "Username", "AcceptedDate", "CompletedDate", "Url", "Technology", "Progress")
+

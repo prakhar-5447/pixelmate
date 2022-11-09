@@ -1,6 +1,14 @@
 from django import forms
 from djongo import models
 from datetime import datetime
+from django.conf import settings
+
+# Add the import for GridFSStorage
+from djongo.storage import GridFSStorage
+
+# Define your GrifFSStorage instance
+grid_fs_storage = GridFSStorage(
+    collection='myfiles', base_url=''.join([str(settings.BASE_DIR), 'myfiles/']))
 
 # Create your models here.
 
@@ -15,6 +23,7 @@ class Signup(models.Model):
 
 class Login(models.Model):
     Id = models.AutoField(primary_key=True)
+    Name = models.CharField(max_length=30)
     Username = models.CharField(max_length=30)
     Email = models.CharField(max_length=50)
 
@@ -37,7 +46,7 @@ class TechForm(forms.ModelForm):
 class ProjectOnGoing(models.Model):
     Id = models.AutoField(primary_key=True)
     Username = models.ForeignKey(
-        Signup, on_delete=models.CASCADE, default=1)
+        Signup, on_delete=models.CASCADE)
     Name = models.CharField(max_length=30)
     Description = models.CharField(max_length=50)
     ProjectImage = models.CharField(max_length=100)
@@ -67,7 +76,7 @@ class WorkForm(forms.ModelForm):
 class ProjectCompleted(models.Model):
     Id = models.AutoField(primary_key=True)
     Username = models.ForeignKey(
-        Signup, on_delete=models.CASCADE, default=1)
+        Signup, on_delete=models.CASCADE)
     Name = models.CharField(max_length=30)
     Description = models.CharField(max_length=50)
     ProjectImage = models.CharField(max_length=100)
@@ -87,7 +96,7 @@ class ProjectCompleted(models.Model):
 class Task(models.Model):
     Id = models.AutoField(primary_key=True)
     Project = models.ForeignKey(
-        ProjectOnGoing, on_delete=models.CASCADE, default=1)
+        ProjectOnGoing, on_delete=models.CASCADE)
     Task = models.ArrayField(
         model_container=Work,
         model_form_class=WorkForm
@@ -132,9 +141,9 @@ class AcceptChallenge(models.Model):
     ProjectImage = models.CharField(max_length=100)
     CurrentTask = models.IntegerField(default=0)
     Challenge = models.ForeignKey(
-        Challenge, on_delete=models.CASCADE, default=1)
+        Challenge, on_delete=models.CASCADE)
     Username = models.ForeignKey(
-        Signup, on_delete=models.CASCADE, default=1)
+        Signup, on_delete=models.CASCADE)
     AcceptedDate = models.DateTimeField(default=datetime.now, blank=True)
     Url = models.CharField(max_length=50)
     Technology = models.ArrayField(
@@ -154,9 +163,9 @@ class CompleteChallenge(models.Model):
     Difficulty_level = models.CharField(max_length=10)
     ProjectImage = models.CharField(max_length=100)
     Challenge = models.ForeignKey(
-        Challenge, on_delete=models.CASCADE, default=1)
+        Challenge, on_delete=models.CASCADE)
     Username = models.ForeignKey(
-        Signup, on_delete=models.CASCADE, default=1)
+        Signup, on_delete=models.CASCADE)
     AcceptedDate = models.DateTimeField(default=datetime.now, blank=True)
     CompletedDate = models.DateTimeField(default=datetime.now, blank=True)
     Url = models.CharField(max_length=50)
