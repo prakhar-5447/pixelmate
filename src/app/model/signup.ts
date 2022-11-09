@@ -1,6 +1,6 @@
 export class signup {
-  Name!: string;
-  Email!: string;
-  Username!: string;
-  Password!: string;
+  Name!: String;
+  Email!: String;
+  Username!: String;
+  Password!: String;
 }
