@@ -8,19 +8,20 @@ import { login } from '../model/login';
   providedIn: 'root',
 })
 export class AuthService {
+  BaseUrl: String = 'http://localhost:8000/';
+
   constructor(private http: HttpClient, private router: Router) {}
 
   signup(credential: signup) {
     const header = new HttpHeaders().set('content-Type', 'application/json');
     this.http
-      .post('http://localhost:8000/signup', credential, {
+      .post(this.BaseUrl + 'signup', credential, {
         headers: header,
       })
       .subscribe((Response: any) => {
         if (Response.success) {
           const username = credential['Username'];
           this.getuser(username);
-          this.router.navigateByUrl('/');
         } else {
           alert(Response.msg);
         }
@@ -30,13 +31,12 @@ export class AuthService {
   login(credential: login) {
     const header = new HttpHeaders().set('content-Type', 'application/json');
     this.http
-      .post('http://localhost:8000/login', credential, {
+      .post(this.BaseUrl + 'login', credential, {
         headers: header,
       })
       .subscribe((Response: any) => {
         if (Response.success) {
           this.getuser(Response.msg);
-          this.router.navigateByUrl('/');
         } else {
           alert(Response.msg);
         }
@@ -46,16 +46,35 @@ export class AuthService {
   getuser(username: String) {
     const header = new HttpHeaders().set('content-Type', 'application/json');
     this.http
-      .get<any>('http://localhost:8000/user/' + username, {
+      .get<any>(this.BaseUrl + 'user/' + username, {
         headers: header,
       })
       .subscribe((Response: any) => {
         if (Response.success) {
           localStorage.setItem('authId', Response.msg.Id);
-          localStorage.getItem('authId');
+          this.router.navigateByUrl('/');
         } else {
           alert(Response.msg);
         }
       });
+  }
+
+  getuserId(userid: String) {
+    const header = new HttpHeaders().set('content-Type', 'application/json');
+    return this.http.get<any>(this.BaseUrl + 'userId/' + userid, {
+      headers: header,
+    });
+  }
+
+  uploadImage(data: any) {
+    return this.http.post(this.BaseUrl + 'upload', data);
+  }
+
+  checkAuth() {
+    const userId: String = localStorage.getItem('authId') || '';
+    if (userId) {
+      return { success: true, userId: userId };
+    }
+    return { success: false, userId: userId };
   }
 }
