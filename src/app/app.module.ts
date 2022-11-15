@@ -57,7 +57,6 @@ import { AnalyticComponent } from './modal/analytic/analytic.component';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-
     MatInputModule,
     MatButtonModule,
     MatIconModule,
