@@ -126,6 +126,24 @@ def projectOnGoingApi(request, id=0):
 
 
 @csrf_exempt
+def publicApi(request, username):
+    if request.method == "GET":
+        userData = Signup.objects.filter(Username=username)
+        if not userData:
+            return JsonResponse({'success': False, 'msg': "User Not Exist"})
+        user_serializer = LoginSerializer(userData[0])
+        ProjectData = ProjectCompleted.objects.filter(
+            Username_id=user_serializer.data["Id"])
+        if ProjectData:
+            project_completed_serializer = ProjectCompletedSerializer(
+                ProjectData, many=True)
+            for i in project_completed_serializer.data:
+                del i["Work"]
+            return JsonResponse({'success': True, 'msg': project_completed_serializer.data})
+        return JsonResponse({'success': False, 'msg': "No Project Found"})
+
+
+@csrf_exempt
 def completeProjectApi(request, id):
     if request.method == "GET":
         ProjectData = ProjectOnGoing.objects.filter(
@@ -338,6 +356,72 @@ def uploadApi(request, name=''):
         img = open('./Photos/' + name, 'rb')
         response = FileResponse(img)
         return response
+
+
+@csrf_exempt
+def statApi(request, id=''):
+    if request.method == "GET":
+        UserData = Signup.objects.filter(
+            Id=id)
+        if not UserData:
+            return JsonResponse({'success': False, 'msg': "User Not Found"})
+        total_easy, total_medium, total_hard, total_ultimate, user_easy, user_medium, user_hard, user_ultimate = 0, 0, 0, 0, 0, 0, 0, 0
+        TotalChallengeData = Challenge.objects.all()
+        if TotalChallengeData:
+            total_challenge_serializer = ChallengeSerializer(
+                TotalChallengeData, many=True)
+            for i in total_challenge_serializer.data:
+                if i["Difficulty_level"] == "Easy":
+                    total_easy += 1
+                elif i["Difficulty_level"] == "Medium":
+                    total_medium += 1
+                elif i["Difficulty_level"] == "Hard":
+                    total_hard += 1
+                else:
+                    total_ultimate += 1
+        UserChallengeData = CompleteChallenge.objects.filter(
+            Username_id=id)
+        if UserChallengeData:
+            user_challenge_serializer = CompleteChallengeSerializer(
+                UserChallengeData, many=True)
+            for i in user_challenge_serializer.data:
+                if i["Difficulty_level"] == "Easy":
+                    user_easy += 1
+                elif i["Difficulty_level"] == "Medium":
+                    user_medium += 1
+                elif i["Difficulty_level"] == "Hard":
+                    user_hard += 1
+                else:
+                    user_ultimate += 1
+        ProjectData = ProjectCompleted.objects.filter(
+            Username_id=id)
+        if ProjectData:
+            project_serializer = ProjectCompletedSerializer(
+                ProjectData, many=True)
+        return JsonResponse({"success": True, "Project": len(project_serializer.data), "msg":    [{
+            "difficulty": "Easy",
+            "projects": user_easy,
+            "total": total_easy,
+            "percentage": (user_easy/total_easy)*100,
+        },
+            {
+            "difficulty": "Medium",
+            "projects": user_medium,
+            "total": total_medium,
+            "percentage": (user_medium/total_medium)*100,
+        },
+            {
+            "difficulty": "Hard",
+            "projects": user_hard,
+            "total": total_hard,
+            "percentage": (user_hard/total_hard)*100,
+        },
+            {
+            "difficulty": "Ultimate",
+            "projects": user_ultimate,
+            "total": total_ultimate,
+            "percentage": (user_ultimate/total_ultimate)*100,
+        }]})
 
 
 @ csrf_exempt

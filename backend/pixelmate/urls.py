@@ -27,6 +27,8 @@ urlpatterns = [
          views.viewCompleteChallengeApi),
     url(r'^upload$', views.uploadApi),
     path('upload/<str:name>', views.uploadApi),
+    path('stat/<str:id>', views.statApi),
+    path('publicApi/<str:username>', views.publicApi),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
