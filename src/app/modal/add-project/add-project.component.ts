@@ -28,7 +28,6 @@ export class AddProjectComponent implements OnInit {
     public dialog: Dialog,
     private auth: AuthService,
     private project: ProjectService,
-    private task: TaskService,
     private router: Router
   ) {
     this.projectForm = new FormGroup({

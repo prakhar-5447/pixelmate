@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-analytic',
@@ -6,29 +9,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./analytic.component.css'],
 })
 export class AnalyticComponent implements OnInit {
-  level = [
-    {
-      difficulty: 'easy',
-      projects: '20',
-      total: '20',
-    },
-    {
-      difficulty: 'medium',
-      projects: '50',
-      total: '20',
-    },
-    {
-      difficulty: 'hard',
-      projects: '7',
-      total: '20',
-    },
-    {
-      difficulty: 'ultimate',
-      projects: '2',
-      total: '20',
-    },
-  ];
-  constructor() {}
+  totalProject: String = '0';
+  level!: any[];
+  constructor(
+    private auth: AuthService,
+    private dialog: Dialog,
+    private router: Router
+  ) {
+    const data = this.auth.checkAuth();
+    if (!data.success) {
+      this.router.navigateByUrl('/login');
+    }
+    auth.stat(data.userId).subscribe((Response: any) => {
+      if (!Response.success) {
+        this.dialog.closeAll();
+      }
+      this.level = Response.msg;
+      this.totalProject = Response.Project;
+    });
+  }
 
   ngOnInit(): void {}
 }

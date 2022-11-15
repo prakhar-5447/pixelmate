@@ -77,4 +77,11 @@ export class AuthService {
     }
     return { success: false, userId: userId };
   }
+
+  stat(userid: String) {
+    const header = new HttpHeaders().set('content-Type', 'application/json');
+    return this.http.get<any>(this.BaseUrl + 'stat/' + userid, {
+      headers: header,
+    });
+  }
 }
