@@ -21,7 +21,7 @@
           >
         </div>
       </div>
-      <div class="h-[25rem] overflow-y-auto drop-shadow-xl bg-white/[0.5]">
+      <div class="h-[25rem] overflow-y-auto drop-shadow-xl bg-white/[0.5] capitalize">
         <div
           cdkDropList
           class="example-list"
@@ -85,7 +85,7 @@
             *ngFor="let t of projectInfo.Technology"
             class="text-medium"
           >
-            <div class="p-px">
+            <div class="p-px capitalize">
               {{ t.name }}
             </div>
           </mat-chip>

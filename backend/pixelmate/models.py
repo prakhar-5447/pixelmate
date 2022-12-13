@@ -15,21 +15,21 @@ grid_fs_storage = GridFSStorage(
 
 class Signup(models.Model):
     Id = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=30)
-    Username = models.CharField(max_length=30)
-    Email = models.CharField(max_length=50)
-    Password = models.CharField(max_length=16)
+    Name = models.TextField()
+    Username = models.TextField()
+    Email = models.TextField()
+    Password = models.TextField()
 
 
 class Login(models.Model):
     Id = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=30)
-    Username = models.CharField(max_length=30)
-    Email = models.CharField(max_length=50)
+    Name = models.TextField()
+    Username = models.TextField()
+    Email = models.TextField()
 
 
 class Tech(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.TextField()
 
     class Meta:
         abstract = True
@@ -47,11 +47,11 @@ class ProjectOnGoing(models.Model):
     Id = models.AutoField(primary_key=True)
     Username = models.ForeignKey(
         Signup, on_delete=models.CASCADE)
-    Name = models.CharField(max_length=30)
-    Description = models.CharField(max_length=50)
-    ProjectImage = models.CharField(max_length=100)
+    Name = models.TextField()
+    Description = models.TextField()
+    ProjectImage = models.TextField()
     CreatedDate = models.DateTimeField(default=datetime.now, blank=True)
-    Url = models.CharField(max_length=50)
+    Url = models.URLField(max_length=100)
     Technology = models.ArrayField(
         model_container=Tech,
         model_form_class=TechForm
@@ -59,7 +59,7 @@ class ProjectOnGoing(models.Model):
 
 
 class Work(models.Model):
-    Title = models.CharField(max_length=100)
+    Title = models.TextField()
     Date = models.DateTimeField(default=datetime.now, blank=True)
 
     class Meta:
@@ -77,16 +77,16 @@ class ProjectCompleted(models.Model):
     Id = models.AutoField(primary_key=True)
     Username = models.ForeignKey(
         Signup, on_delete=models.CASCADE)
-    Name = models.CharField(max_length=30)
-    Description = models.CharField(max_length=50)
-    ProjectImage = models.CharField(max_length=100)
+    Name = models.TextField()
+    Description = models.TextField()
+    ProjectImage = models.TextField()
     CreatedDate = models.DateTimeField(default=datetime.now, blank=True)
     CompletedDate = models.DateTimeField(default=datetime.now, blank=True)
     Work = models.ArrayField(
         model_container=Work,
         model_form_class=WorkForm
     )
-    Url = models.CharField(max_length=50)
+    Url = models.URLField(max_length=100)
     Technology = models.ArrayField(
         model_container=Tech,
         model_form_class=TechForm
@@ -104,7 +104,7 @@ class Task(models.Model):
 
 
 class Step(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.TextField()
 
     class Meta:
         abstract = True
@@ -118,11 +118,11 @@ class StepForm(forms.ModelForm):
 
 class Challenge(models.Model):
     Id = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=30)
-    Description = models.CharField(max_length=50)
-    ProjectImage = models.CharField(max_length=100)
-    Difficulty_level = models.CharField(max_length=10)
-    Url = models.CharField(max_length=50)
+    Name = models.TextField()
+    Description = models.TextField()
+    ProjectImage = models.TextField()
+    Difficulty_level = models.TextField()
+    Url = models.URLField(max_length=100)
     Technology = models.ArrayField(
         model_container=Tech,
         model_form_class=TechForm
@@ -135,17 +135,17 @@ class Challenge(models.Model):
 
 class AcceptChallenge(models.Model):
     Id = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=30)
-    Description = models.CharField(max_length=50)
-    Difficulty_level = models.CharField(max_length=10)
-    ProjectImage = models.CharField(max_length=100)
+    Name = models.TextField()
+    Description = models.TextField()
+    Difficulty_level = models.TextField()
+    ProjectImage = models.TextField()
     CurrentTask = models.IntegerField(default=0)
     Challenge = models.ForeignKey(
         Challenge, on_delete=models.CASCADE)
     Username = models.ForeignKey(
         Signup, on_delete=models.CASCADE)
     AcceptedDate = models.DateTimeField(default=datetime.now, blank=True)
-    Url = models.CharField(max_length=50)
+    Url = models.URLField(max_length=100)
     Technology = models.ArrayField(
         model_container=Tech,
         model_form_class=TechForm
@@ -158,17 +158,17 @@ class AcceptChallenge(models.Model):
 
 class CompleteChallenge(models.Model):
     Id = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=30)
-    Description = models.CharField(max_length=50)
-    Difficulty_level = models.CharField(max_length=10)
-    ProjectImage = models.CharField(max_length=100)
+    Name = models.TextField()
+    Description = models.TextField()
+    Difficulty_level = models.TextField()
+    ProjectImage = models.TextField()
     Challenge = models.ForeignKey(
         Challenge, on_delete=models.CASCADE)
     Username = models.ForeignKey(
         Signup, on_delete=models.CASCADE)
     AcceptedDate = models.DateTimeField(default=datetime.now, blank=True)
     CompletedDate = models.DateTimeField(default=datetime.now, blank=True)
-    Url = models.CharField(max_length=50)
+    Url = models.URLField(max_length=100)
     Technology = models.ArrayField(
         model_container=Tech,
         model_form_class=TechForm

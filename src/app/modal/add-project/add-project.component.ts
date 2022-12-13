@@ -98,4 +98,14 @@ export class AddProjectComponent implements OnInit {
     if (this.projectForm.valid) {
     }
   }
+
+  file_selected(e: any) {
+    if (e.target.files && e.target.files[0]) {
+      var reader = new FileReader();
+      reader.onload = (event: any) => {
+        this.url = event.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  }
 }

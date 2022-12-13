@@ -51,12 +51,10 @@ export class ChallengeComponent implements OnInit {
     if (!data.success) {
       this.router.navigateByUrl('/login');
     }
+    let challengeData = this.challengeInfo;
+    challengeData.CurrentTask = this.cindex;
     this.challenge
-      .progressChallenge({
-        Id: this.challengeInfo.Id,
-        Username: data.userId,
-        CurrentTask: this.cindex,
-      })
+      .progressChallenge(challengeData)
       .subscribe((Response: any) => {
         if (Response.success) {
           this.challengeInfo.CurrentTask = this.cindex;

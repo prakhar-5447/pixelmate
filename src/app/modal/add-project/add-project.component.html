@@ -17,6 +17,7 @@
           <span>Nothing to display</span>
         </label>
         <input
+          (change)="file_selected($event)"
           #fileInput
           class="hidden"
           type="file"

@@ -9,11 +9,14 @@
       </a>
     </div>
     <div class="flex flex-col justify-between">
+      <button (click)="logout()">
+        <img class="w-8" src="assets/sidebar/log_out.png" alt="alert" />
+      </button>
       <button (click)="openDialog()">
-        <img class="w-8" src="assets/sidebar/alert.png" alt="alert" />
+        <img class="w-8 my-4" src="assets/sidebar/alert.png" alt="alert" />
       </button>
       <a routerLink="/setting">
-        <img class="w-8 mt-4" src="assets/sidebar/setting.png" alt="setting" />
+        <img class="w-8" src="assets/sidebar/setting.png" alt="setting" />
       </a>
     </div>
   </div>
