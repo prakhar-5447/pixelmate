@@ -401,25 +401,25 @@ def statApi(request, id=''):
             "difficulty": "Easy",
             "projects": user_easy,
             "total": total_easy,
-            "percentage": ((user_easy/total_easy)*100),
+            "percentage": ((user_easy/total_easy)*100) if total_easy else 0,
         },
             {
             "difficulty": "Medium",
             "projects": user_medium,
             "total": total_medium,
-            "percentage": ((user_medium/total_medium)*100),
+            "percentage": ((user_medium/total_medium)*100) if total_medium else 0,
         },
             {
             "difficulty": "Hard",
             "projects": user_hard,
             "total": total_hard,
-            "percentage": ((user_hard/total_hard)*100),
+            "percentage": ((user_hard/total_hard)*100) if total_hard else 0,
         },
             {
             "difficulty": "Ultimate",
             "projects": user_ultimate,
             "total": total_ultimate,
-            "percentage": ((user_ultimate/total_ultimate)*100),
+            "percentage": ((user_ultimate/total_ultimate)*100) if total_ultimate else 0,
         }]})
 
 
