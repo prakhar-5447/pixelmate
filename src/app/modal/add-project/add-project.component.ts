@@ -61,41 +61,40 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('fileInput') fileInput: any;
 
   send() {
-    let techList: any = this.tech;
-    techList = techList.map((element: String) => {
-      return { name: element };
-    });
-    const formData = new FormData();
-    const fi = this.fileInput.nativeElement;
-    const fileToUpload = fi.files[0];
-    this.imageValid = fileToUpload;
-
-    formData.append('file', fileToUpload);
-    this.auth.uploadImage(formData).subscribe((Response: any) => {
-      this.photoImage = Response.msg;
-      const data = this.auth.checkAuth();
-      if (!data.success) {
-        this.router.navigateByUrl('/login');
-      }
-      this.projectInfo = {
-        Username: data.userId,
-        Name: this.projectForm.value['title'],
-        Description: this.projectForm.value['desc'],
-        ProjectImage: this.photoImage,
-        Url: this.projectForm.value['link'],
-        Technology: techList,
-      };
-      this.project.addProject(this.projectInfo).subscribe((Response: any) => {
-        if (Response.success) {
-          this.router.navigateByUrl('/project');
-          this.dialog.closeAll();
-        } else {
-          alert(Response.msg);
-        }
-      });
-    });
-
     if (this.projectForm.valid) {
+      let techList: any = this.tech;
+      techList = techList.map((element: String) => {
+        return { name: element };
+      });
+      const formData = new FormData();
+      const fi = this.fileInput.nativeElement;
+      const fileToUpload = fi.files[0];
+      this.imageValid = fileToUpload;
+
+      formData.append('file', fileToUpload);
+      this.auth.uploadImage(formData).subscribe((Response: any) => {
+        this.photoImage = Response.msg;
+        const data = this.auth.checkAuth();
+        if (!data.success) {
+          this.router.navigateByUrl('/login');
+        }
+        this.projectInfo = {
+          Username: data.userId,
+          Name: this.projectForm.value['title'],
+          Description: this.projectForm.value['desc'],
+          ProjectImage: this.photoImage,
+          Url: this.projectForm.value['link'],
+          Technology: techList,
+        };
+        this.project.addProject(this.projectInfo).subscribe((Response: any) => {
+          if (Response.success) {
+            this.router.navigateByUrl('/project');
+            this.dialog.closeAll();
+          } else {
+            alert(Response.msg);
+          }
+        });
+      });
     }
   }
 }
